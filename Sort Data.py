@@ -12,7 +12,7 @@ from typing import List, Dict
 #     reader = pd.DataFrame(pd.read_json(dirname, lines=True))
 #     readers.extend(reader)
 
-reader: pd.DataFrame = pd.DataFrame(pd.read_json("data/airlines-1558611772040.json", lines=True, orient="split"))
+reader: pd.DataFrame = pd.DataFrame(pd.read_json("data/airlines-1558527599826.json", lines=True))
 
 # reader = readers[0]
 for index in reader.index:
