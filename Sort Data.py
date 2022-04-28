@@ -3,21 +3,9 @@ import json
 import os
 from typing import List, Dict
 
-# filenames: List[str] = os.listdir("data")
-# readers: List[pd.DataFrame] = list()
-# print(filenames)
-# for filename in filenames:
-#     dirname = os.path.join("data", filename)
-#     print(dirname)
-#     reader = pd.DataFrame(pd.read_json(dirname, lines=True))
-#     readers.extend(reader)
-
-# reader: pd.DataFrame = pd.read_json("data/airlines-1558611772040.json", lines=True)
-
-
-def create_dataframe(filename: str):
+def create_dataframe(filepath: str) -> pd.DataFrame:
     tweets = []
-    with open(filename, "r") as file:
+    with open(filepath, "r") as file:
         for line in file:
             try:
                 tweet = json.loads(line)
@@ -31,3 +19,13 @@ def create_dataframe(filename: str):
     tweets_df = pd.DataFrame(tweets)
     return tweets_df
 print(create_dataframe(r"data\airlines-1558611772040.json"))
+
+def group_by_airline(tweets_df: pd.DataFrame):
+    filenames: List[str] = os.listdir("data")
+    readers: List[pd.DataFrame] = []
+
+    for filename in filenames:
+        file_path: str = os.path.join("data", filename)
+        reader = create_dataframe(file_path)
+        readers.extend(reader)
+# all_dataframes("data")
