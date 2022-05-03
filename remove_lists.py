@@ -3,7 +3,7 @@ remove_tweet: list = ['created_at', 'id', 'source', 'in_reply_to_status_id',
                       'contributors', 'extended_entities', 'favorited', 'retweeted',
                       'possibly_sensitive', 'filter_level', 'quoted_status_id',
                       'quoted_status', 'quoted_status_permalink']
-remove_user_info: list = ['id', 'name', 'url', 'description', 'translator_type',
+remove_user_info: list = ['id', 'name', 'screen_name', 'location', 'url', 'description', 'translator_type',
                           'protected', 'friends_count', 'listed_count',
                           'favourites_count', 'statuses_count', 'created_at',
                           'utc_offset', 'time_zone', 'geo_enabled', 'lang',
@@ -16,5 +16,5 @@ remove_user_info: list = ['id', 'name', 'url', 'description', 'translator_type',
                           'profile_image_url_https', 'profile_banner_url',
                           'default_profile', 'default_profile_image', 'following',
                           'follow_request_sent', 'notifications']
-remove_tweet_entities: list = ['urls', 'media']
+remove_tweet_entities: list = ['urls', 'symbols', 'media']
 remove_user_mentions: list = ['name', 'id', 'indices']
