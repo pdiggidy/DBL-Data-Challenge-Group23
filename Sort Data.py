@@ -5,6 +5,7 @@ import os
 from typing import List, Dict, Set
 from remove_lists import *
 
+
 def create_dataframes(filepath: str) -> pd.DataFrame:
     """Create dataframe from given json file path."""
     tweets: List[dict] = []
@@ -31,9 +32,10 @@ def create_dataframes(filepath: str) -> pd.DataFrame:
             tweets.append(tweet)
             users.append(user_info)
 
-    tweets_df = pd.DataFrame(tweets)
-    users_df = pd.DataFrame(users)
-    return tweets_df, users_df
+    df_tweets = pd.DataFrame(tweets)
+    df_users = pd.DataFrame(users)
+    return df_tweets, df_users
+
 
 def create_raw_tweet(line: str) -> dict:
     """Create dictionary from json text line. Avoid the 'Exceeded connection limit' error.
@@ -46,11 +48,13 @@ def create_raw_tweet(line: str) -> dict:
             raise NameError(f'json loaderror with line: {line}')
     return tweet
 
+
 def extract_user(tweet: dict) -> dict:
     """Extract user dictionary and replace with user id."""
     user_info: dict = tweet.pop("user")
     tweet["user_id_str"] = user_info["screen_name"]
     return user_info
+
 
 def remove_attributes(dictionary: dict, remove: List[str]) -> None:
     """Remove attributes"""
@@ -60,3 +64,6 @@ def remove_attributes(dictionary: dict, remove: List[str]) -> None:
 
 tweets_df, users_df = create_dataframes(r"data\airlines-1558611772040.json")
 print(tweets_df)
+
+# for filename in os.listdir("data"):
+#     if filename.endswith(".json"):
