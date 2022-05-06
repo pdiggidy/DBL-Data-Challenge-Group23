@@ -28,8 +28,15 @@ def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dic
             if ("delete" in tweet) or ("retweeted_status" in tweet):
                 continue
 
-            # add full_text,entities and text_range for extended tweets
+            # replace full_text,entities and text_range for extended tweets
             extended_tweet_handler(tweet)
+
+            # make separate columns of entities and coordinates
+            entities_handler(tweet)
+            coordinates_handler(tweet)
+
+            # only keep text in display_text_range
+            cut_text(tweet)
 
             # extract user dictionary and replace with user_id_str
             user_info: dict = extract_user(tweet)
@@ -37,9 +44,7 @@ def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dic
             # remove abundant attributes from dictionaries
             remove_attributes(tweet, remove_tweet_attr)
             remove_attributes(user_info, remove_user_info_attr)
-            remove_attributes(tweet["entities"], remove_tweet_entities_attr)
-            for user_mention in tweet["entities"]["user_mentions"]:
-                remove_attributes(user_mention, remove_user_mentions_attr)
+            remove_attributes(tweet["place"], remove_tweet_place_attr)
 
             # add dictionary to the rest
             tweets.append(tweet)
@@ -85,13 +90,14 @@ def extract_user(tweet: dict) -> dict:
 
 def remove_attributes(dictionary: dict, remove: List[str]) -> None:
     """Remove attributes from dictionary."""
-    for column_name in remove:
-        dictionary.pop(column_name, None)
+    if type(dictionary) == dict:
+        for column_name in remove:
+            dictionary.pop(column_name, None)
 
 
 def update_counts(tweet: dict) -> Tuple[dict, dict]:
-    """return updated values of referenced tweet; with values quote_count,
-    reply_count, retweet_count and favorite_count.
+    """return updated values of referenced tweet; with values:
+    {status_id: (quote_count, reply_count, retweet_count and favorite_count)}
     """
     rt_count, qt_count = {}, {}  # set rt(retweet) and  qt(quoted tweet)
 
@@ -106,17 +112,37 @@ def update_counts(tweet: dict) -> Tuple[dict, dict]:
 
     return rt_count, qt_count
 
+
 def extended_tweet_handler(tweet: dict) -> None:
-    """Add the tweet with the full text, entities and text_range."""
+    """Change the tweet with the full text, entities and text_range."""
     if "extended_tweet" in tweet:
         tweet["text"] = tweet["extended_tweet"]["full_text"]
         tweet["display_text_range"] = tweet["extended_tweet"]["display_text_range"]
         tweet["entities"] = tweet["extended_tweet"]["entities"]
         del tweet["extended_tweet"]
 
+def coordinates_handler(tweet: dict) -> None:
+    """Separates entities content (hashtags["text"] and user_mentions) into different columns."""
+    if tweet["coordinates"]:
+        tweet["latitude"] = tweet["coordinates"]["coordinates"][1]
+        tweet["longitude"] = tweet["coordinates"]["coordinates"][0]
 
+def entities_handler(tweet: dict) -> None:
+    """Separates entities content (hashtags["text"] and user_mentions) into different columns."""
+    tweet["hashtags"] = np.array([hashtag["text"] for hashtag in tweet["entities"]["hashtags"]])
+    tweet["user_mentions"] = np.array([user_mention["id_str"] for user_mention in tweet["entities"]["user_mentions"]])
+
+def cut_text(tweet: dict) -> None:
+    """"""
+    if "display_text_range" in tweet:
+        begin, end = tweet["display_text_range"]
+        tweet["text"] = tweet["text"][begin:end]
+
+tweets, users, updated_counts = create_dictionaries(r"data\airlines-1558611772040.json")
 tweets_df, users_df, updated_counts_df = create_dataframes(r"data\airlines-1558611772040.json")
+
 print(tweets_df)
+print("place count: ", tweets_df["place"].count())
 
 # for filename in os.listdir("data"):
 #     if filename.endswith(".json"):

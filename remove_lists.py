@@ -1,6 +1,6 @@
-remove_tweet_attr: list = ['created_at', 'id', 'source', 'in_reply_to_status_id',
-                           'in_reply_to_user_id', 'in_reply_to_screen_name', 'geo',
-                           'contributors', 'extended_entities', 'favorited', 'retweeted',
+remove_tweet_attr: list = ['created_at', 'id', 'display_text_range', 'source', 'truncated', 'in_reply_to_status_id',
+                           'in_reply_to_user_id', 'in_reply_to_screen_name', 'geo', 'coordinates',
+                           'contributors', 'entities', 'is_quote_status', 'extended_entities', 'favorited', 'retweeted',
                            'possibly_sensitive', 'filter_level', 'quoted_status_id',
                            'quoted_status', 'quoted_status_permalink']
 remove_user_info_attr: list = ['id', 'name', 'screen_name', 'location', 'url', 'description', 'translator_type',
@@ -16,5 +16,5 @@ remove_user_info_attr: list = ['id', 'name', 'screen_name', 'location', 'url', '
                                'profile_image_url_https', 'profile_banner_url',
                                'default_profile', 'default_profile_image', 'following',
                                'follow_request_sent', 'notifications']
-remove_tweet_entities_attr: list = ['urls', 'symbols', 'media']
-remove_user_mentions_attr: list = ['name', 'id', 'indices']
+remove_hashtags_attr: list = ['indices']
+remove_tweet_place_attr: list = ['id', 'url']  # unfinished
