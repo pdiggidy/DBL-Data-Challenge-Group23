@@ -4,6 +4,7 @@ import json
 import os
 from typing import List, Dict, Set, Tuple
 from remove_lists import *
+from CompanySort import *
 
 
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
