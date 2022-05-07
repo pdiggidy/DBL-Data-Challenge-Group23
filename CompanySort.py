@@ -22,21 +22,22 @@ company_id_list = [56377143, 106062176, 18332190, 22536055, 124476322, 26223583,
 
 
 def find_company(company_ids: List, tweet: Dict = None) -> List:
+    print(tweet["user_mentions"])
     # This code assumes we've already done the process of removing retweets and switching truncated text
-    mentions = tweet["entities"]["user_mentions"]  # Extract the Mentions Section of the Tweet
-    hashtags = tweet["entities"]["hashtags"]
+    mentions = tweet["user_mentions"]  # Extract the Mentions Section of the Tweet
+    hashtags = tweet["hashtags"]
     company = []  # the returned value is a list to account for the possibility that multiple companies mentioned
 
     if len(mentions) != 0:  # if there's no mentions then just skip
         for mention in mentions:
-            user_id = int(mention["id_str"])
+            user_id = int(mention)
             if user_id in company_ids:
                 # if the mentioned user id is in the list of id's, the index of that id is the number of the company
                 company.append(company_ids.index(user_id))
 
     if len(hashtags) != 0:  # if there's no hashtags then just skip
         for hashtag in hashtags:
-            text = hashtag["text"].lower()
+            text = hashtag.lower()
 
     # We decided Not to do this part
     # text = tweet["text"]  # if no companies are found in the mentions we need to look at the text

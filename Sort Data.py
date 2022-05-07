@@ -129,8 +129,8 @@ def coordinates_handler(tweet: dict) -> None:
 
 def entities_handler(tweet: dict) -> None:
     """Separates entities content (hashtags["text"] and user_mentions) into different columns."""
-    tweet["hashtags"] = np.array([hashtag["text"] for hashtag in tweet["entities"]["hashtags"]])
-    tweet["user_mentions"] = np.array([user_mention["id_str"] for user_mention in tweet["entities"]["user_mentions"]])
+    tweet["hashtags"] = [hashtag["text"] for hashtag in tweet["entities"]["hashtags"]]
+    tweet["user_mentions"] = [user_mention["id_str"] for user_mention in tweet["entities"]["user_mentions"]]
 
 def cut_text(tweet: dict) -> None:
     """"""
@@ -187,3 +187,20 @@ print(conversations_df)
 # for filename in os.listdir("data"):
 #     if filename.endswith(".json"):
 
+
+
+
+# def conversation_df_builder(twt_list):
+#     for i in range(8634,-1,-1):
+#         if twt_list[i]['in_reply_to_user_id_str'] in airlines_list \
+#                 or twt_list[i]['user_id_str'] in airlines_list:
+#             print
+
+
+
+
+
+
+
+
+conversation_df_builder(tweets)
