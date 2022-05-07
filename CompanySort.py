@@ -38,7 +38,6 @@ def find_company(company_ids: List, tweet: Dict = None) -> List:
         for hashtag in hashtags:
             text = hashtag["text"].lower()
 
-
     # We decided Not to do this part
     # text = tweet["text"]  # if no companies are found in the mentions we need to look at the text
     # if text is not None:  # We shouldn't get any None text because of the preprocessing, but just incase
