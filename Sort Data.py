@@ -186,21 +186,3 @@ print(conversations_df)
 
 # for filename in os.listdir("data"):
 #     if filename.endswith(".json"):
-
-
-
-
-# def conversation_df_builder(twt_list):
-#     for i in range(8634,-1,-1):
-#         if twt_list[i]['in_reply_to_user_id_str'] in airlines_list \
-#                 or twt_list[i]['user_id_str'] in airlines_list:
-#             print
-
-
-
-
-
-
-
-
-conversation_df_builder(tweets)
