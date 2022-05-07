@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 import json
 import os
-from typing import List, Dict, Set, Tuple, Any
-from remove_lists import *
+from typing import List, Dict, Set, Tuple
+from Lists import *
 from CompanySort import *
 
 
@@ -142,7 +142,6 @@ tweets, users, updated_counts = create_dictionaries(r"data\airlines-155861177204
 tweets_df, users_df, updated_counts_df = create_dataframes(r"data\airlines-1558611772040.json")
 
 print(tweets_df)
-# print(tweets)
 print("place count: ", tweets_df["place"].count())
 
 # for filename in os.listdir("data"):
