@@ -18,3 +18,14 @@ remove_user_info_attr: list = ['id', 'name', 'screen_name', 'location', 'url', '
                                'follow_request_sent', 'notifications']
 remove_hashtags_attr: list = ['indices']
 remove_tweet_place_attr: list = ['id', 'url']  # unfinished
+
+airlines_list: list = [56377143,  #KLM
+                         106062176, 18332190, 22536055,          # AirFrance, BritishAirways, AmericanAir,
+                         124476322, 26223583, 2182373406,        # Lufthansa, AirBerlin, AirBerlin Assist,
+                         38676903, 1542862735, 253340062,        # easyJet, RyanAir, SingaporeAir
+                         218730857, 45621423, 20626359]          # Qantas, EtihadAirways, VirginAtlantic
+klm_id : int = 56377143
+ba_id : int = 18332190
+airlines_list_wo_klm : list = [106062176, 18332190, 22536055,124476322
+                         26223583, 2182373406, 38676903, 1542862735,
+                         253340062, 218730857, 45621423, 20626359]

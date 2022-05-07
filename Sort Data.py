@@ -146,3 +146,15 @@ print("place count: ", tweets_df["place"].count())
 
 # for filename in os.listdir("data"):
 #     if filename.endswith(".json"):
+
+
+
+
+# def conversation_df_builder(twt_df: pd.DataFrame) -> pd.DataFrame:
+#     for tweet in twt_df:
+#         print(tweet[2])
+#         print('ok')
+#
+# print(tweets_df.head())
+# conversation_df_builder(tweets_df.head())
+
