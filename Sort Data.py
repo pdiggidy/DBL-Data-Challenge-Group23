@@ -3,7 +3,7 @@ import numpy as np
 import json
 import os
 from typing import List, Dict, Set, Tuple
-from remove_lists import *
+from UnnecessaryAttributes import *
 from CompanySort import *
 
 
