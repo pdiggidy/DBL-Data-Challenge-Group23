@@ -150,9 +150,9 @@ print("place count: ", tweets_df["place"].count())
 
 
 
-# def conversation_df_builder(twt_df: pd.DataFrame) -> pd.DataFrame:
-#     for tweet in twt_df:
-#         print(tweet[2])
+# def conversation_df_builder(twt_dict: pd.dict) -> pd.DataFrame:
+#     for tweet in twt_dict:
+#         print(tweet)
 #         print('ok')
 #
 # print(tweets_df.head())
