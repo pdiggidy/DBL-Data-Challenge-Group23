@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 import os
-from typing import List, Dict, Set, Tuple
+from typing import List, Dict, Set, Tuple, Any
 from remove_lists import *
 from CompanySort import *
 
@@ -142,6 +142,7 @@ tweets, users, updated_counts = create_dictionaries(r"data\airlines-155861177204
 tweets_df, users_df, updated_counts_df = create_dataframes(r"data\airlines-1558611772040.json")
 
 print(tweets_df)
+# print(tweets)
 print("place count: ", tweets_df["place"].count())
 
 # for filename in os.listdir("data"):
@@ -150,11 +151,17 @@ print("place count: ", tweets_df["place"].count())
 
 
 
-# def conversation_df_builder(twt_dict: pd.dict) -> pd.DataFrame:
-#     for tweet in twt_dict:
-#         print(tweet)
-#         print('ok')
-#
-# print(tweets_df.head())
-# conversation_df_builder(tweets_df.head())
+# def conversation_df_builder(twt_list):
+#     for i in range(8634,-1,-1):
+#         if twt_list[i]['in_reply_to_user_id_str'] in airlines_list \
+#                 or twt_list[i]['user_id_str'] in airlines_list:
+#             print
 
+
+
+
+
+
+
+
+conversation_df_builder(tweets)
