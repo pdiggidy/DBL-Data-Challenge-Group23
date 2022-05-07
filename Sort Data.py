@@ -138,29 +138,52 @@ def cut_text(tweet: dict) -> None:
         begin, end = tweet["display_text_range"]
         tweet["text"] = tweet["text"][begin:end]
 
+
+def conversations_dict_builder(twt_list) -> List[list]:
+    """"Creates conversation lists from tweet dictionary input."""
+    conversations: List[list]= []
+    for i in range((len(twt_list)-1),-1,-1):
+        if twt_list[i]['in_reply_to_user_id_str'] is not None \
+                and int(twt_list[i]['in_reply_to_user_id_str']) in airlines_list \
+                or int(twt_list[i]['user_id_str']) in airlines_list:
+            list_nr = 0
+            in_conversations = False
+
+            while list_nr < len(conversations):
+                for elem in conversations[list_nr]:
+                    if elem == twt_list[i]['id_str']:
+                        conversations[list_nr].append(twt_list[i]['in_reply_to_status_id_str'])
+                        in_conversations = True
+                list_nr += 1
+
+            if not in_conversations:
+                conversations.append([twt_list[i]['id_str'], twt_list[i]['in_reply_to_status_id_str']])
+
+    return conversations
+
+def conversation_dict_to_df(conversations: List[list]) -> pd.DataFrame:
+    """"Creates conversation dataframes from tweet dictionary"""
+    conversations_df = pd.DataFrame(conversations)
+    conversations_df_indexed = pd.DataFrame(conversations, index=conversations_df.iloc[:, 0])
+    del conversations_df_indexed[0]
+    return conversations_df_indexed
+
+
+
+# creating dataframes from json files
 tweets, users, updated_counts = create_dictionaries(r"data\airlines-1558611772040.json")
 tweets_df, users_df, updated_counts_df = create_dataframes(r"data\airlines-1558611772040.json")
 
+# creating conversation dataframes
+conversations = conversations_dict_builder(tweets)
+conversations_df = conversation_dict_to_df(conversations)
+
+# for debugging purposes
 print(tweets_df)
 print("place count: ", tweets_df["place"].count())
+print(conversations_df)
+
 
 # for filename in os.listdir("data"):
 #     if filename.endswith(".json"):
 
-
-
-
-# def conversation_df_builder(twt_list):
-#     for i in range(8634,-1,-1):
-#         if twt_list[i]['in_reply_to_user_id_str'] in airlines_list \
-#                 or twt_list[i]['user_id_str'] in airlines_list:
-#             print
-
-
-
-
-
-
-
-
-conversation_df_builder(tweets)
