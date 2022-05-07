@@ -129,8 +129,8 @@ def coordinates_handler(tweet: dict) -> None:
 
 def entities_handler(tweet: dict) -> None:
     """Separates entities content (hashtags["text"] and user_mentions) into different columns."""
-    tweet["hashtags"] = np.array([hashtag["text"] for hashtag in tweet["entities"]["hashtags"]])
-    tweet["user_mentions"] = np.array([user_mention["id_str"] for user_mention in tweet["entities"]["user_mentions"]])
+    tweet["hashtags"] = [hashtag["text"] for hashtag in tweet["entities"]["hashtags"]]
+    tweet["user_mentions"] = [user_mention["id_str"] for user_mention in tweet["entities"]["user_mentions"]]
 
 def cut_text(tweet: dict) -> None:
     """"""
@@ -163,4 +163,5 @@ print("place count: ", tweets_df["place"].count())
 
 
 
-conversation_df_builder(tweets)
+#conversation_df_builder(tweets)
+
