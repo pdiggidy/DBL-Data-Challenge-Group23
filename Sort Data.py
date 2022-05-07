@@ -106,6 +106,7 @@ def update_counts(tweet: dict) -> Tuple[dict, dict]:
 
     return rt_count, qt_count
 
+
 def extended_tweet_handler(tweet: dict) -> None:
     """Add the tweet with the full text, entities and text_range."""
     if "extended_tweet" in tweet:
