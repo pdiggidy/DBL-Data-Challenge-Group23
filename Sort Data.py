@@ -184,9 +184,9 @@ conversations = conversations_dict_builder(tweets)
 conversations_df = conversation_dict_to_df(conversations)
 
 # for debugging purposes
-print(len(tweets_df))
-#print("place count: ", tweets_df["place"].count())
-#print(conversations_df)
+print(tweets_df)
+print("place count: ", tweets_df["place"].count())
+print(conversations_df)
 
 
 # for filename in os.listdir("data"):
