@@ -34,14 +34,14 @@ def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dic
             # extract latitude and longitude from coordinates and make separate columns of them
             coordinates_handler(tweet)
 
-            #Assign each tweet to one or more companies
-            tweet["company"] = find_company(company_id_list, company_names, tweet)
-
             # only keep text within "display_text_range" bounds
             cut_text(tweet)
 
             # extract user dictionary and replace with user_id_str
             user_info: dict = extract_user(tweet)
+
+            #Assign each tweet to one or more companies
+            tweet["company"] = find_company(company_id_list, company_names, tweet)
 
             # remove abundant attributes from dictionaries
             remove_attributes(tweet, remove_tweet_attr)
