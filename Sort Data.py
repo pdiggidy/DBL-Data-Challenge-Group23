@@ -35,6 +35,9 @@ def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dic
             entities_handler(tweet)
             coordinates_handler(tweet)
 
+            #Assign each tweet to one or more companies
+            tweet["company"] = find_company(company_id_list, company_names, tweet)
+
             # only keep text in display_text_range
             cut_text(tweet)
 
@@ -65,6 +68,8 @@ def create_dataframes(filepath: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Dat
     df_users.index.name = "user_id_str"
     updates_columns: list = ["quote_count", "reply_count", "retweet_count", "favorite_count"]
     df_updated_counts = pd.DataFrame.from_dict(updated_counts, columns=updates_columns, orient="index")
+
+    df_tweets = df_tweets[df_tweets.company.notnull()]
 
     return df_tweets, df_users, df_updated_counts
 
