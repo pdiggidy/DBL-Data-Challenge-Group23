@@ -179,7 +179,7 @@ def conversations_list_builder(twt_list) -> List[list]:
                 # AND
                 # it is replying to another tweet (2)
 
-            list_nr = 0                #iterator for the while loop
+            list_nr = 0                # iterator for the while loop
             in_conversations = False   # false as long as tweet does not already exist in our conversations
 
             while list_nr < len(conversations):       # iterate through the conversation list
@@ -230,7 +230,6 @@ print(tweets_df)
 print("place count: ", tweets_df["place"].count())
 
 print(conversations_df)
-
 
 # print(convos)
 # print(len(convos))
