@@ -163,11 +163,12 @@ def cut_text(tweet: dict) -> None:
         tweet["text"] = tweet["text"][begin:end]
 
 
-def conversations_dict_builder(twt_list) -> List[list]:
+
+def conversations_list_builder(twt_list) -> List[list]:
     """"Creates conversation lists from tweet dictionary input."""
     conversations: List[list]= []
     for i in range((len(twt_list)-1),-1,-1):
-        if twt_list[i]['in_reply_to_user_id_str'] is not None \
+        if twt_list[i]['in_reply_to_status_id_str'] is not None \
                 and int(twt_list[i]['in_reply_to_user_id_str']) in airlines_list \
                 or int(twt_list[i]['user_id_str']) in airlines_list:
             list_nr = 0
@@ -175,7 +176,7 @@ def conversations_dict_builder(twt_list) -> List[list]:
 
             while list_nr < len(conversations):
                 for elem in conversations[list_nr]:
-                    if elem == twt_list[i]['id_str']:
+                    if elem == twt_list[i]['id_str'] and twt_list[i]['in_reply_to_status_id_str'] is not None:
                         conversations[list_nr].append(twt_list[i]['in_reply_to_status_id_str'])
                         in_conversations = True
                 list_nr += 1
@@ -185,12 +186,24 @@ def conversations_dict_builder(twt_list) -> List[list]:
 
     return conversations
 
-def conversation_dict_to_df(conversations: List[list]) -> pd.DataFrame:
+def conversations_cleaner(conversations_to_clean: List[list]) -> List[list]:
+    """"Removes non conversations (less than 3 tweets) from collected interactions."""
+    cleaned_conversations: List[list] = []
+
+    for convo in conversations_to_clean:
+        if len(convo) >= 3:
+            cleaned_conversations.append(convo)
+
+    return cleaned_conversations
+
+def conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:
     """"Creates conversation dataframes from tweet dictionary"""
     conversations_df = pd.DataFrame(conversations)
     conversations_df_indexed = pd.DataFrame(conversations, index=conversations_df.iloc[:, 0])
     del conversations_df_indexed[0]
+
     return conversations_df_indexed
+
 
 
 # creating dataframes from json files
@@ -198,14 +211,22 @@ tweets, users, updated_counts = create_dictionaries("data/airlines-1558611772040
 tweets_df, users_df, updated_counts_df = create_dataframes("data/airlines-1558611772040.json")
 
 # creating conversation dataframes
-conversations = conversations_dict_builder(tweets)
-conversations_df = conversation_dict_to_df(conversations)
+conversations = conversations_list_builder(tweets)
+cleaned_conversations = conversations_cleaner(conversations)
+conversations_df = conversations_list_to_df(cleaned_conversations)
 
 # for debugging purposes
 print(tweets_df)
 print("place count: ", tweets_df["place"].count())
+
 print(conversations_df)
 
+
+# print(convos)
+# print(len(convos))
+#
+# print(cleaned_convos)
+# print(len(cleaned_convos))
 
 # def run_data_directory():
 #     """Run with all data in 'data' directories"""
