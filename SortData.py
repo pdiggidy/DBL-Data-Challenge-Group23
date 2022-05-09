@@ -5,6 +5,7 @@ import os
 from typing import List, Dict, Set, Tuple
 from Lists import *
 from CompanySort import *
+from Jeroen import * #for testing
 
 
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
@@ -215,7 +216,6 @@ def conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:
 
     return conversations_df_indexed
 
-
 # creating dataframes from json files
 tweets, users, updated_counts = create_dictionaries("data/airlines-1558611772040.json")
 tweets_df, users_df, updated_counts_df = create_dataframes("data/airlines-1558611772040.json")
@@ -226,10 +226,11 @@ cleaned_conversations = conversations_cleaner(conversations)
 conversations_df = conversations_list_to_df(cleaned_conversations)
 
 # for debugging purposes
-print(tweets_df)
-print("place count: ", tweets_df["place"].count())
-
-print(conversations_df)
+#print(tweets_df)
+#print("place count: ", tweets_df["place"].count())
+test = count_updater(tweets_df, updated_counts_df)
+print(test)
+#print(conversations_df)
 
 # print(convos)
 # print(len(convos))
