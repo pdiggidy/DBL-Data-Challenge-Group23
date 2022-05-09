@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from statistics import mean
 import json
 import os
 from typing import List, Dict, Set, Tuple
@@ -197,6 +198,7 @@ def conversations_list_builder(twt_list) -> List[list]:
 
     return conversations
 
+
 def conversations_cleaner(conversations_to_clean: List[list]) -> List[list]:
     """"Removes non conversations (less than 3 tweets) from collected interactions."""
     cleaned_conversations: List[list] = []            # will hold the "cleaned" conversations
@@ -206,6 +208,7 @@ def conversations_cleaner(conversations_to_clean: List[list]) -> List[list]:
             cleaned_conversations.append(convo)       # add the conversation to our new conversations list
 
     return cleaned_conversations
+
 
 def conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:
     """"Creates conversation dataframes from tweet dictionary."""
@@ -226,17 +229,41 @@ cleaned_conversations = conversations_cleaner(conversations)
 conversations_df = conversations_list_to_df(cleaned_conversations)
 
 # for debugging purposes
-#print(tweets_df)
-#print("place count: ", tweets_df["place"].count())
+print(tweets_df)
 test = count_updater(tweets_df, updated_counts_df)
 print(test)
-#print(conversations_df)
 
-# print(convos)
-# print(len(convos))
-#
-# print(cleaned_convos)
-# print(len(cleaned_convos))
+def decriptive_statistics():
+    klm_tweets_df = tweets_df[tweets_df["user_id_str"] == str(klm_id)]
+    bra_tweets_df = tweets_df[tweets_df["user_id_str"] == str(ba_id)]
+
+    print(f"amount of loaded tweets after cleaning: \n{len(tweets_df)}\n"
+          f"amount of loaded conversations: \n{len(conversations_df)}\n"
+          f"amount of tweets per conversation within bound: \n"
+          f"{min(len(conversation) for conversation in cleaned_conversations)} < amount < "
+          f"{max(len(conversation) for conversation in cleaned_conversations)}\n"
+          f"average amount of tweets per conversation: \n{mean(len(conversation) for conversation in cleaned_conversations)}\n"
+          f"\n"
+          f"amount of tweets send by KLM: \n{len(klm_tweets_df)}\n"
+          f"amount of tweets send by British Airways: \n{len(bra_tweets_df)}\n"
+          )
+
+
+    decriptive_count = ["quote_count", "reply_count", "retweet_count", "favorite_count"]
+    print("\nCumulative counts of quotes, replies, retweets and favorites of KLM and British Airways:\n",
+        pd.DataFrame({"KLM": dict((count, sum(klm_tweets_df[count])) for count in decriptive_count),
+                      "British Airways": dict((count, sum(bra_tweets_df[count])) for count in decriptive_count)}
+                     )
+    )
+    print("\nAverage counts of quotes, replies, retweets and favorites of KLM and British Airways per 100 tweets:\n",
+        pd.DataFrame({"KLM": dict( ( count, sum(klm_tweets_df[count]) / len(klm_tweets_df) )
+                                  for count in decriptive_count),
+                      "British Airways": dict( ( count, sum(bra_tweets_df[count]) / len(bra_tweets_df) )
+                                  for count in decriptive_count)}
+                     )
+          )
+
+decriptive_statistics()
 
 # def run_data_directory():
 #     """Run with all data in 'data' directories"""

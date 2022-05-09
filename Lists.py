@@ -16,7 +16,6 @@ remove_user_info_attr: list = ['id', 'name', 'screen_name', 'location', 'url', '
                                'profile_image_url_https', 'profile_banner_url',
                                'default_profile', 'default_profile_image', 'following',
                                'follow_request_sent', 'notifications']
-remove_hashtags_attr: list = ['indices']
 remove_tweet_place_attr: list = ['id', 'url']  # unfinished
 
 airlines_list: list = [56377143,  # KLM
