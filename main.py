@@ -3,7 +3,7 @@ import os
 from Cleaning import *
 from Conversations import *
 from CompanySort import *
-from Jeroen import * #for testing
+from Jeroen import *  # for testing
 
 
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
@@ -39,7 +39,7 @@ def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dic
             # extract user dictionary and replace with user_id_str
             user_info: dict = extract_user(tweet)
 
-            #Assign each tweet to one or more companies
+            # Assign each tweet to one or more companies
             tweet["company"] = find_company(company_id_list, company_names, tweet)
 
             # remove abundant attributes from dictionaries
