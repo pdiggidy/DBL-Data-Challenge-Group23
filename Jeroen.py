@@ -1,6 +1,7 @@
 import pandas as pd
 from timeit import default_timer as timer
 
+
 def count_updater(original_df: pd.DataFrame, updated_values: pd.DataFrame) -> pd.DataFrame:
     start = timer()
     original_df = original_df.set_index("id_str")
