@@ -4,6 +4,8 @@ from Cleaning import *
 from Conversations import *
 from CompanySort import *
 from Jeroen import *  # for testing
+from DataStatistics import *
+
 
 
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
@@ -87,12 +89,24 @@ conversations_df = conversations_list_to_df(cleaned_conversations)
 
 df_list = split_df(tweets_df, company_names)
 df_klm, df_af, df_ba, df_aa, df_lh, df_ab, df_ab_ass, df_ej, df_ra, df_sa, df_qa, df_ea, df_va = df_list
-# for debugging purposes
-#print(tweets_df)
-test = count_updater(tweets_df, updated_counts_df)
-# jeroen's test
-print(test)
 
+######################## for debugging purposes
+
+######################## print dataframes
+print(tweets_df)
+# print(conversations_df)
+
+# print(df_klm)
+# print(df_ba)
+
+
+
+# jeroen's test
+test = count_updater(tweets_df, updated_counts_df)
+# print(test)
+
+#statistics test
+print(tweets_per_language(tweets))
 
 def decriptive_statistics(tweets_df):
     klm_tweets_df = tweets_df[tweets_df["user_id_str"] == str(klm_id)]
@@ -124,7 +138,7 @@ def decriptive_statistics(tweets_df):
           )
 
 
-decriptive_statistics(tweets_df)
+# decriptive_statistics(tweets_df)
 
 # def run_data_directory():
 #     """Run with all data in 'data' directories"""
