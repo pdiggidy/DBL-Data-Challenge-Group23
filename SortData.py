@@ -89,6 +89,7 @@ conversations_df = conversations_list_to_df(cleaned_conversations)
 # for debugging purposes
 print(tweets_df)
 test = count_updater(tweets_df, updated_counts_df)
+# jeroen's test
 print(test)
 
 def decriptive_statistics():
