@@ -4,9 +4,7 @@ from Cleaning import *
 from Conversations import *
 from CompanySort import *
 from Jeroen import *  # for testing
-from DataStatistics import *
-
-
+from Lists import *
 
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
     """Creates 3 dictionaries from given json file path: tweets, users and updated_counts.
@@ -104,9 +102,6 @@ print(tweets_df)
 # jeroen's test
 test = count_updater(tweets_df, updated_counts_df)
 # print(test)
-
-#statistics test
-print(tweets_per_language(tweets))
 
 def decriptive_statistics(tweets_df):
     klm_tweets_df = tweets_df[tweets_df["user_id_str"] == str(klm_id)]

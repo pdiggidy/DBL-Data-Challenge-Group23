@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 from datetime import datetime
+from Lists import *
 
 def tweets_per_language(twt_list):
     """Tweets per language counter."""
@@ -30,7 +31,7 @@ def tweets_per_language(twt_list):
     return languages, percentages
 
 def tweets_per_weekday(twt_list):
-    """Tweets per language counter."""
+    """Tweets per language."""
     monday_tweets = 0
     tuesday_tweets = 0
     wednesday_tweets = 0
@@ -66,3 +67,120 @@ def tweets_per_weekday(twt_list):
     tweet_count_per_day.append(sunday_tweets)
 
     return tweet_count_per_day
+
+def tweets_per_airline(twt_list):
+    """Tweets sent and received per airline."""
+    tweets_sent_klm = 0
+    tweets_received_klm = 0
+    tweets_sent_ba = 0
+    tweets_received_ba = 0
+    tweets_sent_other = 0
+    tweets_received_other = 0
+
+    for i in range(len(twt_list)):
+        if int(twt_list[i]['user_id_str']) == klm_id:
+            tweets_sent_klm += 1
+        if int(twt_list[i]['user_id_str']) == ba_id:
+            tweets_sent_ba += 1
+        if int(twt_list[i]['user_id_str']) in airlines_list_wo_klm_wo_ba:
+            tweets_sent_other += 1
+
+        if str(klm_id) in twt_list[i]['user_mentions']:
+            tweets_received_klm += 1
+        if str(ba_id) in twt_list[i]['user_mentions']:
+            tweets_received_ba += 1
+        else:
+            for airline in airlines_list_wo_klm_wo_ba:
+                if str(airline) in twt_list[i]['user_mentions']:
+                    tweets_received_other += 1
+
+    sent = [tweets_sent_klm, tweets_sent_ba, tweets_sent_other/11]
+    received = [tweets_received_klm, tweets_received_ba, tweets_received_other/11]
+
+    print(sent)
+    print(received)
+
+    return sent, received
+
+def tweets_per_hour(twt_list):
+    """Tweest per hour of the day."""
+
+    monday_tweets_in = 0
+    tuesday_tweets_in = 0
+    wednesday_tweets_in = 0
+    thursday_tweets_in = 0
+    friday_tweets_in = 0
+
+    monday_tweets_out = 0
+    tuesday_tweets_out = 0
+    wednesday_tweets_out = 0
+    thursday_tweets_out = 0
+    friday_tweets_out = 0
+    saturday_tweets_out = 0
+    sunday_tweets_out = 0
+
+    for i in range(len(twt_list)):
+        weekday = datetime.weekday(datetime.fromtimestamp(int(twt_list[i]['timestamp_ms'])/1000))
+        hour = datetime.fromtimestamp(int(twt_list[i]['timestamp_ms'])/1000).hour
+        # print(weekday,hour)
+        if weekday == 0:
+            if 5 <= hour <= 9:
+                monday_tweets_in += 1
+            else:
+                monday_tweets_out += 1
+        if weekday == 1:
+            if 5 <= hour <= 9:
+                tuesday_tweets_in += 1
+            else:
+                tuesday_tweets_out += 1
+        if weekday == 2:
+            if 5 <= hour <= 9:
+                wednesday_tweets_in += 1
+            else:
+                wednesday_tweets_out += 1
+        if weekday == 3:
+            if 5 <= hour <= 9:
+                thursday_tweets_in+= 1
+            else:
+                thursday_tweets_out += 1
+        if weekday == 4:
+            if 5 <= hour <= 9:
+                friday_tweets_in += 1
+            else:
+                friday_tweets_out += 1
+        if weekday == 5:
+            saturday_tweets_out += 1
+        if weekday == 6:
+            sunday_tweets_out += 1
+
+    in_business = [monday_tweets_in, tuesday_tweets_in, wednesday_tweets_in,
+                   thursday_tweets_in, friday_tweets_in]
+    out_business = [monday_tweets_out, tuesday_tweets_out, wednesday_tweets_out, thursday_tweets_out,
+                    friday_tweets_out, saturday_tweets_out, sunday_tweets_out]
+    # print(in_business, out_business)
+    return in_business, out_business
+
+def average_conversation_length(conversations, twt_list):
+    """Average conversation length."""
+    conversation_length_klm = []
+    conversation_length_ba = []
+    conversation_length_other = []
+
+    for convo in conversations:
+        for i in range(len(twt_list)):
+            if twt_list[i]['id_str'] == convo[0]:
+
+                if twt_list[i]['user_id_str'] == klm_id \
+                        or twt_list[i]['in_reply_to_user_id_str'] == klm_id \
+                        or str(klm_id) in twt_list[i]['user_mentions']:
+                    conversation_length_klm.append(len(convo))
+
+                if twt_list[i]['user_id_str'] == ba_id \
+                        or twt_list[i]['in_reply_to_user_id_str'] == ba_id \
+                        or str(ba_id) in twt_list[i]['user_mentions']:
+                    conversation_length_ba.append(len(convo))
+                else:
+                    conversation_length_other.append(len(convo))
+
+    return conversation_length_klm, conversation_length_ba, conversation_length_other
+

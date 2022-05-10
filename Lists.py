@@ -37,3 +37,15 @@ airlines_list_wo_klm: list = [106062176,   # AirFrance
                               218730857,   # Qantas
                               45621423,    # EtihadAirways
                               20626359]    # VirginAtlantic
+
+airlines_list_wo_klm_wo_ba: list = [106062176,   # AirFrance
+                                    22536055,    # AmericanAir
+                                    124476322,   # Lufthansa
+                                    26223583,    # AirBerlin
+                                    2182373406,  # AirBerlin Assist
+                                    38676903,    # easyJet
+                                    1542862735,  # RyanAir
+                                    253340062,   # SingaporeAir
+                                    218730857,   # Qantas
+                                    45621423,    # EtihadAirways
+                                    20626359]    # VirginAtlantic
