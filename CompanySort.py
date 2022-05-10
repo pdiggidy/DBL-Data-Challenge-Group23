@@ -57,8 +57,14 @@ def find_company(company_ids: List, company_names: List, tweet: Dict = None) -> 
     #     if re.search(r" klm ", text) is not None:
     #         company.append(0)
 
-    if len(company) != 0:  # Convert to the list to set and back to remove duplicates, and return it
-        company = set(company)
-        return list(company)
+    if len(set(company)) == 1:  # Convert to the list to set and back to remove duplicates, and return it
+        return company[0]
     else:
         return None  # If there's no company mentioned Return None for easy filtering
+
+
+def split_df(dataframe, names):
+    df_list = [0, 0, 0, 0 ,0, 0, 0 ,0 ,0, 0 ,0 ,0, 0]
+    for i in range(len(names)):
+        df_list[i] = dataframe[dataframe["company"] == i].set_index("id_str")
+    return df_list
