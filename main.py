@@ -1,10 +1,10 @@
 from statistics import mean
 import os
+import pickle
 from Cleaning import *
 from Conversations import *
 from CompanySort import *
 from Jeroen import *  # for testing
-from Lists import *
 
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
     """Creates 3 dictionaries from given json file path: tweets, users and updated_counts.
@@ -47,6 +47,10 @@ def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dic
             remove_attributes(user_info, remove_user_info_attr)
             remove_attributes(tweet["place"], remove_tweet_place_attr)
 
+            # if tweet can't be grouped by company, remove it.
+            if tweet["company"]==None:
+                continue
+
             # combine dictionaries of this tweet with other dictionaries
             tweets.append(tweet)
             users[user_info.pop("id_str")] = user_info
@@ -71,7 +75,7 @@ def create_dataframes(filepath: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Dat
     updates_columns: list = ["quote_count", "reply_count", "retweet_count", "favorite_count"]
     df_updated_counts = pd.DataFrame.from_dict(updated_counts, columns=updates_columns, orient="index")
 
-    df_tweets = df_tweets[df_tweets.company.notnull()]
+    df_tweets.set_index("id_str", inplace=True)
 
     return df_tweets, df_users, df_updated_counts
 
@@ -132,17 +136,49 @@ def decriptive_statistics(tweets_df):
                        )
           )
 
+decriptive_statistics(tweets_df)
 
-# decriptive_statistics(tweets_df)
 
-# def run_data_directory():
-#     """Run with all data in 'data' directories"""
-#     tweets_dfs, users_dfs, updated_counts_dfs = [], [], []
-#     for filename in os.listdir("data"):
-#         path_name = os.path.join("data", filename)
-#         tweets_frame, users_frame, updated_counts_frame = create_dataframes(path_name)
-#         tweets_dfs.append(tweets_frame)
-#         users_dfs.append(users_frame)
-#         updated_counts_dfs.append(updated_counts_frame)
-#     return tweets_dfs, users_dfs, updated_counts_dfs
-# print([len(df) for dfs in run_data_directory() for df in dfs])
+def run_data_directory(dir_name: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Run with all data in given directory. Returns 3 complete dataframes. Runtime ~ 11 minutes.
+    """
+    i = 0
+    tweets_cum, users_cum, updated_counts_cum = [], dict(), dict()
+    for filename in os.listdir(dir_name):
+        path_name = os.path.join(dir_name, filename)
+        tweets, users, updated_counts = create_dictionaries(path_name)
+        tweets_cum.extend(tweets)
+        users_cum.update(users)
+        updated_counts_cum.update(updated_counts)
+        i += 1
+        if i % 10 == 0:
+            print(f"{i}-", end="")
+
+    tweets_cum = pd.DataFrame(tweets_cum).set_index("id_str")
+
+    users_cum = pd.DataFrame.from_dict(users_cum, orient='index')
+    users_cum.index.name = "user_id_str"
+
+    updates_columns: list = ["quote_count", "reply_count", "retweet_count", "favorite_count"]
+    updated_counts_cum = pd.DataFrame.from_dict(updated_counts_cum, columns=updates_columns, orient="index")
+
+    tweets_cum.update(updated_counts_cum)
+    tweets_cum = tweets_cum.astype({"quote_count": int, "reply_count": int, "retweet_count": int, "favorite_count": int})
+
+    return tweets_cum, users_cum, updated_counts_cum
+
+
+def save_cleaned_dfs(directory: str, tweets_cum_split, company_name):
+    for i, company_name in enumerate(company_names):
+        filename = f"{company_name}_tweets_df.pickle"
+        pathname = os.path.join(directory, filename)
+        file = open(pathname, "wb")
+        pickle.dump(tweets_cum_split[i], file)
+        file.close()
+
+tweets_cum, users_cum, updated_counts_cum = run_data_directory("data")
+tweets_cum_split = split_df(tweets_cum, company_names)
+save_cleaned_dfs("Clean_data", tweets_cum_split, company_names)
+# decriptive_statistics(tweets_cum)
+
+6

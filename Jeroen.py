@@ -4,7 +4,6 @@ import pandas as pd
 def count_updater(original_df: pd.DataFrame, updated_values: pd.DataFrame) -> pd.DataFrame:
     """Docstring
     """
-    original_df = original_df.set_index("id_str")
 
     try:  # for the first time when residu doesn't exist yet
         updated_values = updated_values.append(residu)
@@ -29,5 +28,5 @@ def count_updater(original_df: pd.DataFrame, updated_values: pd.DataFrame) -> pd
             residu.loc[id, "reply_count"] = row["reply_count"]
             residu.loc[id, "retweet_count"] = row["retweet_count"]
             residu.loc[id, "favorite_count"] = row["favorite_count"]
-    original_df = original_df.reset_index()
+
     return original_df

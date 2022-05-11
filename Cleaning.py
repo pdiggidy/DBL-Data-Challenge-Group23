@@ -1,6 +1,6 @@
 import json
 import numpy as np
-from typing import  List, Tuple, Dict
+from typing import List, Tuple, Dict
 
 
 def create_raw_tweet(line: str) -> dict:

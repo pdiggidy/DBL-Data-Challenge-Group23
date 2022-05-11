@@ -64,7 +64,7 @@ def find_company(company_ids: List, company_names: List, tweet: Dict = None) -> 
 
 
 def split_df(dataframe, names):
-    df_list = [0, 0, 0, 0 ,0, 0, 0 ,0 ,0, 0 ,0 ,0, 0]
+    df_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(len(names)):
-        df_list[i] = dataframe[dataframe["company"] == i].set_index("id_str")
+        df_list[i] = dataframe[dataframe["company"] == i]
     return df_list
