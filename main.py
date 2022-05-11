@@ -6,6 +6,7 @@ from Conversations import *
 from CompanySort import *
 from Jeroen import *  # for testing
 
+
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
     """Creates 3 dictionaries from given json file path: tweets, users and updated_counts.
     """
@@ -13,50 +14,52 @@ def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dic
     users: Dict[str, dict] = dict()
     updated_counts: Dict[str, Tuple] = dict()
 
-    with open(filepath, "r") as file:
-        for line in file:
-            # load the json file in a dictionary and handle errors
-            tweet: dict = create_raw_tweet(line)
+    try:
+        with open(filepath, "r") as file:
+            for line in file:
+                # load the json file in a dictionary and handle errors
+                tweet: dict = create_raw_tweet(line)
 
-            # create dictionary with updated counts of quotes, replies, retweets and likes
-            rt_count, qt_count = update_counts(tweet)
+                # create dictionary with updated counts of quotes, replies, retweets and likes
+                rt_count, qt_count = update_counts(tweet)
 
-            # continue to next tweet if tweet is deleted or a retweet
-            if ("delete" in tweet) or ("retweeted_status" in tweet):
-                continue
+                # continue to next tweet if tweet is deleted or a retweet
+                if ("delete" in tweet) or ("retweeted_status" in tweet):
+                    continue
 
-            # for extended tweets: replace full_text,entities and text_range attributes
-            extended_tweet_handler(tweet)
+                # for extended tweets: replace full_text,entities and text_range attributes
+                extended_tweet_handler(tweet)
 
-            # extract hashtags and user_mentions from entities and make separate columns of them
-            entities_handler(tweet)
-            # extract latitude and longitude from coordinates and make separate columns of them
-            coordinates_handler(tweet)
+                # extract hashtags and user_mentions from entities and make separate columns of them
+                entities_handler(tweet)
+                # extract latitude and longitude from coordinates and make separate columns of them
+                coordinates_handler(tweet)
 
-            # only keep text within "display_text_range" bounds
-            cut_text(tweet)
+                # only keep text within "display_text_range" bounds
+                cut_text(tweet)
 
-            # extract user dictionary and replace with user_id_str
-            user_info: dict = extract_user(tweet)
+                # extract user dictionary and replace with user_id_str
+                user_info: dict = extract_user(tweet)
 
-            # Assign each tweet to one or more companies
-            tweet["company"] = find_company(company_id_list, company_names, tweet)
+                # Assign each tweet to one or more companies
+                tweet["company"] = find_company(company_id_list, company_names, tweet)
 
-            # remove abundant attributes from dictionaries
-            remove_attributes(tweet, remove_tweet_attr)
-            remove_attributes(user_info, remove_user_info_attr)
-            remove_attributes(tweet["place"], remove_tweet_place_attr)
+                # remove abundant attributes from dictionaries
+                remove_attributes(tweet, remove_tweet_attr)
+                remove_attributes(user_info, remove_user_info_attr)
+                remove_attributes(tweet["place"], remove_tweet_place_attr)
 
-            # if tweet can't be grouped by company, remove it.
-            if tweet["company"]==None:
-                continue
+                # if tweet can't be grouped by company, remove it.
+                if tweet["company"] == None:
+                    continue
 
-            # combine dictionaries of this tweet with other dictionaries
-            tweets.append(tweet)
-            users[user_info.pop("id_str")] = user_info
-            updated_counts.update(rt_count)
-            updated_counts.update(qt_count)
-
+                # combine dictionaries of this tweet with other dictionaries
+                tweets.append(tweet)
+                users[user_info.pop("id_str")] = user_info
+                updated_counts.update(rt_count)
+                updated_counts.update(qt_count)
+    except PermissionError:
+        pass
     return tweets, users, updated_counts
 
 
@@ -102,9 +105,10 @@ print(tweets_df)
 # print(df_ba)
 
 
-
 # jeroen's test
 test = count_updater(tweets_df, updated_counts_df)
+
+
 # print(test)
 
 def decriptive_statistics(tweets_df):
@@ -136,6 +140,7 @@ def decriptive_statistics(tweets_df):
                        )
           )
 
+
 decriptive_statistics(tweets_df)
 
 
@@ -163,7 +168,8 @@ def run_data_directory(dir_name: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Da
     updated_counts_cum = pd.DataFrame.from_dict(updated_counts_cum, columns=updates_columns, orient="index")
 
     tweets_cum.update(updated_counts_cum)
-    tweets_cum = tweets_cum.astype({"quote_count": int, "reply_count": int, "retweet_count": int, "favorite_count": int})
+    tweets_cum = tweets_cum.astype(
+        {"quote_count": int, "reply_count": int, "retweet_count": int, "favorite_count": int})
 
     return tweets_cum, users_cum, updated_counts_cum
 
@@ -176,9 +182,9 @@ def save_cleaned_dfs(directory: str, tweets_cum_split, company_name):
         pickle.dump(tweets_cum_split[i], file)
         file.close()
 
+
 tweets_cum, users_cum, updated_counts_cum = run_data_directory("data")
 tweets_cum_split = split_df(tweets_cum, company_names)
 save_cleaned_dfs("Clean_data", tweets_cum_split, company_names)
 # decriptive_statistics(tweets_cum)
 
-6
