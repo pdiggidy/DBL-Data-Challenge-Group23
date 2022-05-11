@@ -17,35 +17,43 @@ from DataStatistics import *
 # y_series = pd.Series(y)
 # print(y_series.mean())
 
+
+
 ####################################################    PLOT 1
 languages, percentages = tweets_per_language(tweets)
-explode = (0, 0.1, 0, 0)
+explode = (0.1, 0, 0, 0)
 fig1, ax1 = plt.subplots()
-ax1.pie(percentages, labels=languages, autopct='%6.1f%%', # shows percentages in pie
+ax1.pie(percentages, explode = explode, labels=languages, autopct='%6.1f%%', # shows percentages in pie
         shadow=False, startangle=90)
 ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-plt.title("Distribution of languages of tweets")
+ax1.set_title("Distribution of languages of tweets", size=14)
+
+# plt.title("Distribution of languages of tweets")
 plt.show()
 
 ####################################################    PLOT 2
 tweets_per_day = tweets_per_weekday(tweets)
-categories = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+categories = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 plt.bar(categories, tweets_per_day, color='maroon',
         width=0.4)
-plt.xlabel("Label X")
-plt.ylabel("Label Y")
-plt.title("Titel")
+plt.xlabel("Day of the week")
+plt.ylabel("Amount of tweets")
+plt.title("Amount of tweets per day of the week")
 plt.show()
 
 
 ####################################################    PLOT 3
 sent, received = tweets_per_airline(tweets)
-x = np.arange(3)
 
+x = np.arange(3)
 width = 0.40
 plt.bar(x - 0.2, sent, width)
 plt.bar(x + 0.2, received, width)
+plt.ylabel("Amount of tweets")
+plt.xlabel("KLM                  British Airways                   Others")
+plt.title("Amount of total tweets per airline")
+plt.legend(['Sent', 'Received'])
 plt.show()
 
 ####################################################    PLOT 4
@@ -53,7 +61,10 @@ in_business, out_business = tweets_per_hour(tweets)
 fig_4, ax_4 = plt.subplots(ncols=2, nrows=1)
 ax_4_1 = sns.boxplot(data=in_business, ax=ax_4[0])
 ax_4_2 = sns.boxplot(data=out_business, ax=ax_4[1])
-ax_4_1.set_title("Testooo")
+ax_4_1.set_title("During business hours")
+ax_4_2.set_title("Outside business hours")
+ax_4_1.set_ylabel("Amount of tweets per hour")
+fig_4.suptitle('Amount of tweets per hour during and outside of business hours', weight= 'bold')
 plt.show()
 
 ####################################################    PLOT 5a
@@ -73,6 +84,11 @@ ax_8_1 = sns.violinplot(data=conversation_length_klm, ax=ax_8[0])
 ax_8_2 = sns.violinplot(data=conversation_length_ba, ax=ax_8[1])
 ax_8_3 = sns.violinplot(data=conversation_length_other, ax=ax_8[2])
 ax_8_1.set_ylim([0, 20])
+ax_8_1.set_title('KLM')
+ax_8_2.set_title('BA')
+ax_8_3.set_title('Others')
+ax_8_1.set_ylabel("Conversation length (in tweets)")
+fig.suptitle('Distribution of conversation length per airline', weight= 'bold', size=14)
 plt.show()
 
 
@@ -95,6 +111,12 @@ ax_1 = sns.boxplot(data=response_klm, ax=ax_6[0])
 ax_2 = sns.boxplot(data=response_ba, ax=ax_6[1])
 ax_3 = sns.boxplot(data=response_other, ax=ax_6[2])
 ax_1.set_ylim([0,400])
+ax_1.set_title('KLM')
+ax_2.set_title('BA')
+ax_3.set_title('Others')
+ax_1.set_ylabel("Response time (in minutes)")
+
+fig.suptitle('Distributions of response times per airline', weight='bold', size=14)
 plt.show()
 
 # individual boxplots
