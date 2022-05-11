@@ -3,9 +3,8 @@ from typing import List
 from Lists import *
 
 
-def conversations_list_builder(twt_list) -> List[list]:
+def conversations_list_builder(twt_list, conversations=[]) -> List[list]:
     """"Creates conversation lists from tweet dictionary input."""
-    conversations: List[list]= []             # will hold the conversations
     for i in range((len(twt_list)-1),-1,-1):  # loop through the tweets reversely
         if twt_list[i]['in_reply_to_status_id_str'] is not None \
            and int(twt_list[i]['in_reply_to_user_id_str']) in airlines_list \
