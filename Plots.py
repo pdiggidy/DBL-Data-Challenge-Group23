@@ -50,11 +50,11 @@ plt.show()
 
 ####################################################    PLOT 4
 in_business, out_business = tweets_per_hour(tweets)
-
-sns.boxplot(data=in_business)
-plt.show()
-sns.boxplot(data=out_business)
-plt.show()
+fig_4, ax_4 = plt.subplots(ncols=2, nrows=1)
+ax_4_1 = sns.boxplot(data=in_business, ax=ax_4[0])
+#ax_4_1.set_title("Test")
+ax_4_2 = sns.boxplot(data=out_business, ax=ax_4[1])
+fig_4.show()
 
 ####################################################    PLOT 5a
 conversation_length_klm,\
@@ -83,10 +83,10 @@ plt.show()
 
 ####################################################    PLOT 6
 response_klm, response_ba, response_other = average_response_time(tweets)
-fig, ax = plt.subplots(ncols=3, nrows=1, sharey=True)
-ax_1 = sns.boxplot(data=response_klm, ax=ax[0])
-ax_2 = sns.boxplot(data=response_ba, ax=ax[1])
-ax_3 = sns.boxplot(data=response_other, ax=ax[2])
+fig, ax_6 = plt.subplots(ncols=3, nrows=1, sharey=True)
+ax_1 = sns.boxplot(data=response_klm, ax=ax_6[0])
+ax_2 = sns.boxplot(data=response_ba, ax=ax_6[1])
+ax_3 = sns.boxplot(data=response_other, ax=ax_6[2])
 ax_1.set_ylim([0,400])
 plt.show()
 
