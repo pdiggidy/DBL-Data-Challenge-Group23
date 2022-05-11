@@ -4,6 +4,8 @@ import seaborn as sns
 import numpy as np
 from datetime import datetime
 from Lists import *
+import statistics as stat
+
 
 def tweets_per_language(twt_list):
     """Tweets per language counter."""
@@ -169,7 +171,6 @@ def average_conversation_length(conversations, twt_list):
     for convo in conversations:
         for i in range(len(twt_list)):
             if twt_list[i]['id_str'] == convo[0]:
-
                 if twt_list[i]['user_id_str'] == klm_id \
                         or twt_list[i]['in_reply_to_user_id_str'] == klm_id \
                         or str(klm_id) in twt_list[i]['user_mentions']:
@@ -182,5 +183,45 @@ def average_conversation_length(conversations, twt_list):
                 else:
                     conversation_length_other.append(len(convo))
 
-    return conversation_length_klm, conversation_length_ba, conversation_length_other
+    return stat.mean(conversation_length_klm), stat.mean(conversation_length_ba), stat.mean(conversation_length_other)
+
+def average_response_time(twt_list):
+    """Average response time per airline."""
+    response_times_klm = []
+    response_times_ba = []
+    response_times_other = []
+
+    minute_times_klm = []
+    minute_times_ba = []
+    minute_times_other = []
+
+    for i in range(len(twt_list)):
+        if twt_list[i]['in_reply_to_status_id_str'] is not None:
+
+            if int(twt_list[i]['user_id_str']) == klm_id:
+                for j in range(len(twt_list)):
+                    if twt_list[j]['id_str'] == twt_list[i]['in_reply_to_status_id_str']:
+                        response_times_klm.append(abs(int(twt_list[i]['timestamp_ms']) - int(twt_list[j]['timestamp_ms'])))
+
+            if int(twt_list[i]['user_id_str']) == ba_id:
+                for j in range(len(twt_list)):
+                    if twt_list[j]['id_str'] == twt_list[i]['in_reply_to_status_id_str']:
+                        response_times_ba.append(abs(int(twt_list[i]['timestamp_ms']) - int(twt_list[j]['timestamp_ms'])))
+
+            if int(twt_list[i]['user_id_str']) in airlines_list_wo_klm_wo_ba:
+                for j in range(len(twt_list)):
+                    if twt_list[j]['id_str'] == twt_list[i]['in_reply_to_status_id_str']:
+                        response_times_other.append(abs(int(twt_list[i]['timestamp_ms']) - int(twt_list[j]['timestamp_ms'])))
+
+    for time in response_times_klm:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_klm.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_ba:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_ba.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_other:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_other.append(time_object.hour*60 + time_object.minute)
+
+    return minute_times_klm, minute_times_ba, minute_times_other
 

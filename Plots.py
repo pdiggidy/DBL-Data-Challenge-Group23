@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 import seaborn as sns
 import numpy as np
-from main import *
+from main import tweets
 from DataStatistics import *
 
 # x = [1,2,3,4,5,6,7,8,9]
@@ -52,15 +52,29 @@ from DataStatistics import *
 # sns.boxplot(data=in_business)
 # # sns.boxplot(data=out_business)
 
-####################################################    PLOT 5
-conversation_length_klm,\
-conversation_length_ba,\
-conversation_length_other = average_conversation_length(cleaned_conversations, tweets)
+####################################################    PLOT 5a
+# conversation_length_klm,\
+# conversation_length_ba,\
+# conversation_length_other = average_conversation_length(cleaned_conversations, tweets)
 
-sns.boxplot(data=conversation_length_other)
-# plt.bar(mean(conversation_length_other), height=10)
+# sns.boxplot(data=conversation_length_other)
+
+####################################################    PLOT 5b  better?
+# conversation_length_klm,\
+# conversation_length_ba,\
+# conversation_length_other = average_conversation_length(cleaned_conversations, tweets)
+#
+# airlines = ['KLM', 'BA', 'Other']
+# average_lengths = [conversation_length_klm, conversation_length_ba, conversation_length_other]
+# plt.bar(airlines, average_lengths, color='maroon',
+#         width=0.4)
 
 ####################################################    PLOT 6
+response_klm, response_ba, response_other = average_response_time(tweets)
+#
+# sns.boxplot(data=response_klm)
+sns.boxplot(data=response_ba)
+# sns.boxplot(data=response_other)
 
 
 
