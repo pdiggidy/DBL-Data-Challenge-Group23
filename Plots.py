@@ -96,7 +96,3 @@ sns.boxplot(data=response_ba)
 plt.show()
 sns.boxplot(data=response_other)
 plt.show()
-
-
-
-
