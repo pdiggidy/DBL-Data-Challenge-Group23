@@ -84,7 +84,7 @@ plt.show()
 ####################################################    PLOT 6
 response_klm, response_ba, response_other = average_response_time(tweets)
 fig, ax = plt.subplots(ncols=3, nrows=1, sharey=True)
-ax_1 =  sns.boxplot(data=response_klm, ax=ax[0])
+ax_1 = sns.boxplot(data=response_klm, ax=ax[0])
 ax_2 = sns.boxplot(data=response_ba, ax=ax[1])
 ax_3 = sns.boxplot(data=response_other, ax=ax[2])
 ax_1.set_ylim([0,400])
