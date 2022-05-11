@@ -9,28 +9,49 @@ import statistics as stat
 
 def tweets_per_language(twt_list):
     """Tweets per language counter."""
-    lang_freq_dict: dict = {'other': 0}
-    counter = 0
+    lang_freq_dict: dict = {}
     for i in range(len(twt_list)):
-        if counter < 7:
-            if twt_list[i]['lang'] in lang_freq_dict:
-                lang_freq_dict[twt_list[i]['lang']] += 1
-            else:
-                lang_freq_dict[twt_list[i]['lang']] = 0
-                counter += 1
+        if twt_list[i]['lang'] in lang_freq_dict:
+            lang_freq_dict[twt_list[i]['lang']] += 1
         else:
-            if twt_list[i]['lang'] in lang_freq_dict:
-                lang_freq_dict[twt_list[i]['lang']] += 1
-            else:
-                lang_freq_dict['other'] += 1
+            lang_freq_dict[twt_list[i]['lang']] = 0
 
     languages: list = []
     percentages: list = []
+    lang_freq_dict_sorted = dict(sorted(lang_freq_dict.items(), key=lambda item: item[1], reverse=True))
+    lang_freq_dict_sorted_list = list(lang_freq_dict_sorted.items())
+    print(lang_freq_dict_sorted)
 
-    for lang, freq in lang_freq_dict.items():
-        languages.append(lang)
-        percentages.append(freq/len(twt_list)*100)
-    return languages, percentages
+    for i in range(len(lang_freq_dict_sorted)):
+        k, v = lang_freq_dict_sorted_list[i]
+        languages.append(k)
+        percentages.append(v/len(twt_list)*100)
+
+    languages2 = []
+    percentages2 = []
+    count = 0
+    n = 3
+    for i in range(len(languages)):
+        if count < n:
+            languages2.append(languages[i])
+            percentages2.append(percentages[i])
+            count += 1
+        else:
+            if count > n:
+                percentages2[-1] = percentages2[-1] + percentages[i]
+                count += 1
+
+            else:
+                languages2.append('other')
+                percentages2.append(percentages[i])
+                count += 1
+
+    print(languages)
+    print(percentages)
+    print(languages2)
+    print(percentages2)
+
+    return languages2, percentages2
 
 def tweets_per_weekday(twt_list):
     """Tweets per language."""

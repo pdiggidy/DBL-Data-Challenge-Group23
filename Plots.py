@@ -61,11 +61,11 @@ conversation_length_klm,\
 conversation_length_ba,\
 conversation_length_other = average_conversation_length(cleaned_conversations, tweets)
 
-sns.boxplot(data=conversation_length_klm)
+sns.violinplot(data=conversation_length_klm)
 plt.show()
-sns.boxplot(data=conversation_length_ba)
+sns.violinplot(data=conversation_length_ba)
 plt.show()
-sns.boxplot(data=conversation_length_other)
+sns.violinplot(data=conversation_length_other)
 plt.show()
 
 
@@ -90,9 +90,10 @@ ax_3 = sns.boxplot(data=response_other, ax=ax[2])
 ax_1.set_ylim([0,400])
 plt.show()
 
-sns.boxplot(data=response_klm)
-plt.show()
-sns.boxplot(data=response_ba)
-plt.show()
-sns.boxplot(data=response_other)
-plt.show()
+# individual boxplots
+# sns.boxplot(data=response_klm)
+# plt.show()
+# sns.boxplot(data=response_ba)
+# plt.show()
+# sns.boxplot(data=response_other)
+# plt.show()
