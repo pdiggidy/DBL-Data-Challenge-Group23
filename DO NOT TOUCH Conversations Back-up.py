@@ -19,13 +19,16 @@ def conversations_list_builder(twt_list) -> List[list]:
                 # AND
                 # it is replying to another tweet (2)
 
-            convo_nr = 0                # iterator for the while loop
+            list_nr = 0                # iterator for the while loop
             in_conversations = False   # false as long as tweet does not already exist in our conversations
 
-            for convo in conversations:
-                if twt_list[i]['id_str'] == convo[-1]:
-                    convo.append(twt_list[i]['in_reply_to_status_id_str'])
-                    in_conversations = True  # tweet is found, so true
+            while list_nr < len(conversations):       # iterate through the conversation list
+                for elem in conversations[list_nr]:   # for every tweet in a conversation
+                    if elem == twt_list[i]['id_str']: # if the tweet (id) has been found in a conversation in our list
+                        conversations[list_nr].append(twt_list[i]['in_reply_to_status_id_str'])
+                                                      # add the tweet it is replying to, to the conversation
+                        in_conversations = True       # tweet is found, so true
+                list_nr += 1                          # increase iterator
 
             if not in_conversations:   # if the tweet has not been found somewhere in our conversations
                 conversations.append([twt_list[i]['id_str'], twt_list[i]['in_reply_to_status_id_str']])
