@@ -1,7 +1,5 @@
-from matplotlib import pyplot as plt
+from statistics import mean
 import pandas as pd
-import seaborn as sns
-import numpy as np
 from datetime import datetime
 from Lists import *
 import statistics as stat
@@ -255,4 +253,35 @@ def average_response_time(twt_list):
         minute_times_other.append(time_object.hour*60 + time_object.minute)
 
     return minute_times_klm, minute_times_ba, minute_times_other
+
+
+def decriptive_statistics(tweets_df, conversations_df, cleaned_conversations):
+    klm_tweets_df = tweets_df[tweets_df["user_id_str"] == str(klm_id)]
+    bra_tweets_df = tweets_df[tweets_df["user_id_str"] == str(ba_id)]
+    conversations_ln = [len(conversation) for conversation in cleaned_conversations]
+
+    print(f"amount of loaded tweets after cleaning: \n{len(tweets_df)}\n"
+          f"amount of loaded conversations: \n{len(conversations_df)}\n"
+          f"amount of tweets per conversation within bound: \n"
+          f"{min(conversations_ln)} < amount < "
+          f"{max(conversations_ln)}\n"
+          f"average amount of tweets per conversation: \n{mean(conversations_ln)}\n"
+          f"\n"
+          f"amount of tweets send by KLM: \n{len(klm_tweets_df)}\n"
+          f"amount of tweets send by British Airways: \n{len(bra_tweets_df)}\n"
+          )
+
+    decriptive_count = ["quote_count", "reply_count", "retweet_count", "favorite_count"]
+    print("\nCumulative counts of quotes, replies, retweets and favorites of KLM and British Airways:\n",
+          pd.DataFrame({"KLM": dict((count, sum(klm_tweets_df[count])) for count in decriptive_count),
+                        "British Airways": dict((count, sum(bra_tweets_df[count])) for count in decriptive_count)}
+                       )
+          )
+    print("\nAverage counts of quotes, replies, retweets and favorites of KLM and British Airways per 100 tweets:\n",
+          pd.DataFrame({"KLM": dict((count, sum(klm_tweets_df[count]) / len(klm_tweets_df))
+                                    for count in decriptive_count),
+                        "British Airways": dict((count, sum(bra_tweets_df[count]) / len(bra_tweets_df))
+                                                for count in decriptive_count)}
+                       )
+          )
 

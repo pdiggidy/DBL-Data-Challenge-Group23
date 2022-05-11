@@ -1,10 +1,10 @@
-from statistics import mean
 import os
 import pickle
 from Cleaning import *
 from Conversations import *
 from CompanySort import *
 from Jeroen import *  # for testing
+from DataStatistics import *
 
 
 def create_dictionaries(filepath: str) -> Tuple[List[dict], Dict[str, dict], Dict[str, tuple]]:
@@ -181,6 +181,35 @@ def save_cleaned_dfs(directory: str, tweets_cum_split, company_name):
         file = open(pathname, "wb")
         pickle.dump(tweets_cum_split[i], file)
         file.close()
+
+
+# creating dataframes from json files
+tweets, users, updated_counts = create_dictionaries("data/airlines-1558611772040.json")
+tweets_df, users_df, updated_counts_df = create_dataframes("data/airlines-1558611772040.json")
+
+# creating conversation dataframes
+conversations = conversations_list_builder(tweets)
+cleaned_conversations = conversations_cleaner(conversations)
+conversations_df = conversations_list_to_df(cleaned_conversations)
+
+
+df_list = split_df(tweets_df, company_names)
+df_klm, df_af, df_ba, df_aa, df_lh, df_ab, df_ab_ass, df_ej, df_ra, df_sa, df_qa, df_ea, df_va = df_list
+
+######################## for debugging purposes
+
+######################## print dataframes
+print(tweets_df)
+# print(conversations_df)
+
+# jeroen's test
+test = count_updater(tweets_df, updated_counts_df)
+
+# descriptive statistics
+decriptive_statistics(tweets_df, conversations_df, cleaned_conversations)
+
+
+
 
 
 tweets_cum, users_cum, updated_counts_cum = run_data_directory("data")
