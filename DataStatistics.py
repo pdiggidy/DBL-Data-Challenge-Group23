@@ -99,8 +99,8 @@ def tweets_per_airline(twt_list):
     sent = [tweets_sent_klm, tweets_sent_ba, tweets_sent_other/11]
     received = [tweets_received_klm, tweets_received_ba, tweets_received_other/11]
 
-    print(sent)
-    print(received)
+    # print(sent)
+    # print(received)
 
     return sent, received
 
@@ -122,44 +122,48 @@ def tweets_per_hour(twt_list):
     sunday_tweets_out = 0
 
     for i in range(len(twt_list)):
-        weekday = datetime.weekday(datetime.fromtimestamp(int(twt_list[i]['timestamp_ms'])/1000))
-        hour = datetime.fromtimestamp(int(twt_list[i]['timestamp_ms'])/1000).hour
-        # print(weekday,hour)
-        if weekday == 0:
-            if 5 <= hour <= 9:
-                monday_tweets_in += 1
-            else:
-                monday_tweets_out += 1
-        if weekday == 1:
-            if 5 <= hour <= 9:
-                tuesday_tweets_in += 1
-            else:
-                tuesday_tweets_out += 1
-        if weekday == 2:
-            if 5 <= hour <= 9:
-                wednesday_tweets_in += 1
-            else:
-                wednesday_tweets_out += 1
-        if weekday == 3:
-            if 5 <= hour <= 9:
-                thursday_tweets_in+= 1
-            else:
-                thursday_tweets_out += 1
-        if weekday == 4:
-            if 5 <= hour <= 9:
-                friday_tweets_in += 1
-            else:
-                friday_tweets_out += 1
-        if weekday == 5:
-            saturday_tweets_out += 1
-        if weekday == 6:
-            sunday_tweets_out += 1
+        if int(twt_list[i]['user_id_str']) == klm_id \
+                or str(klm_id) in twt_list[i]['user_mentions'] \
+                or twt_list[i]['in_reply_to_user_id_str'] == str(klm_id):
+            weekday = datetime.weekday(datetime.fromtimestamp(int(twt_list[i]['timestamp_ms'])/1000))
+            hour = datetime.fromtimestamp(int(twt_list[i]['timestamp_ms'])/1000).hour
+            # print(weekday,hour)
+            if weekday == 0:
+                if 9 <= hour < 17:
+                    monday_tweets_in += 1
+                else:
+                    monday_tweets_out += 1
+            if weekday == 1:
+                if 9 <= hour < 17:
+                    tuesday_tweets_in += 1
+                else:
+                    tuesday_tweets_out += 1
+            if weekday == 2:
+                if 9 <= hour < 17:
+                    wednesday_tweets_in += 1
+                else:
+                    wednesday_tweets_out += 1
+            if weekday == 3:
+                if 9 <= hour < 17:
+                    thursday_tweets_in+= 1
+                else:
+                    thursday_tweets_out += 1
+            if weekday == 4:
+                if 9 <= hour < 17:
+                    friday_tweets_in += 1
+                else:
+                    friday_tweets_out += 1
+            if weekday == 5:
+                saturday_tweets_out += 1
+            if weekday == 6:
+                sunday_tweets_out += 1
 
     in_business = [monday_tweets_in, tuesday_tweets_in, wednesday_tweets_in,
                    thursday_tweets_in, friday_tweets_in]
     out_business = [monday_tweets_out, tuesday_tweets_out, wednesday_tweets_out, thursday_tweets_out,
                     friday_tweets_out, saturday_tweets_out, sunday_tweets_out]
-    # print(in_business, out_business)
+
+    print(in_business, out_business)
     return in_business, out_business
 
 def average_conversation_length(conversations, twt_list):
@@ -183,7 +187,13 @@ def average_conversation_length(conversations, twt_list):
                 else:
                     conversation_length_other.append(len(convo))
 
-    return stat.mean(conversation_length_klm), stat.mean(conversation_length_ba), stat.mean(conversation_length_other)
+    print(conversation_length_klm)
+    print(conversation_length_ba)
+    print(conversation_length_other)
+
+    print(stat.mean(conversation_length_klm), stat.mean(conversation_length_ba), stat.mean(conversation_length_other))
+
+    return conversation_length_klm, conversation_length_ba, conversation_length_other
 
 def average_response_time(twt_list):
     """Average response time per airline."""
