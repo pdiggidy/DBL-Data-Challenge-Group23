@@ -182,7 +182,10 @@ def tweets_per_hour(twt_list):
     out_business = [monday_tweets_out, tuesday_tweets_out, wednesday_tweets_out, thursday_tweets_out,
                     friday_tweets_out, saturday_tweets_out, sunday_tweets_out]
 
-    print(in_business, out_business)
+    print('in business is:')
+    print(in_business)
+    print('out business is:')
+    print(out_business)
     return in_business, out_business
 
 def average_conversation_length(conversations, twt_list):

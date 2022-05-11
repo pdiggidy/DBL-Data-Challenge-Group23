@@ -52,33 +52,40 @@ plt.show()
 in_business, out_business = tweets_per_hour(tweets)
 fig_4, ax_4 = plt.subplots(ncols=2, nrows=1)
 ax_4_1 = sns.boxplot(data=in_business, ax=ax_4[0])
-#ax_4_1.set_title("Test")
 ax_4_2 = sns.boxplot(data=out_business, ax=ax_4[1])
-fig_4.show()
+ax_4_1.set_title("Testooo")
+plt.show()
 
 ####################################################    PLOT 5a
 conversation_length_klm,\
 conversation_length_ba,\
 conversation_length_other = average_conversation_length(cleaned_conversations, tweets)
 
-sns.violinplot(data=conversation_length_klm)
-plt.show()
-sns.violinplot(data=conversation_length_ba)
-plt.show()
-sns.violinplot(data=conversation_length_other)
+# sns.violinplot(data=conversation_length_klm)
+# plt.show()
+# sns.violinplot(data=conversation_length_ba)
+# plt.show()
+# sns.violinplot(data=conversation_length_other)
+# plt.show()
+
+fig, ax_8 = plt.subplots(ncols=3, nrows=1, sharey=True)
+ax_8_1 = sns.violinplot(data=conversation_length_klm, ax=ax_8[0])
+ax_8_2 = sns.violinplot(data=conversation_length_ba, ax=ax_8[1])
+ax_8_3 = sns.violinplot(data=conversation_length_other, ax=ax_8[2])
+ax_8_1.set_ylim([0, 20])
 plt.show()
 
 
 ####################################################    PLOT 5b  better?
-conversation_length_klm,\
-conversation_length_ba,\
-conversation_length_other = average_conversation_length(cleaned_conversations, tweets)
-airlines = ['KLM', 'BA', 'Other']
-
-average_lengths = [mean(conversation_length_klm), mean(conversation_length_ba), mean(conversation_length_other)]
-plt.bar(airlines, average_lengths, color='maroon',
-        width=0.4)
-plt.show()
+# conversation_length_klm,\
+# conversation_length_ba,\
+# conversation_length_other = average_conversation_length(cleaned_conversations, tweets)
+# airlines = ['KLM', 'BA', 'Other']
+#
+# average_lengths = [mean(conversation_length_klm), mean(conversation_length_ba), mean(conversation_length_other)]
+# plt.bar(airlines, average_lengths, color='maroon',
+#         width=0.4)
+# plt.show()
 
 
 ####################################################    PLOT 6

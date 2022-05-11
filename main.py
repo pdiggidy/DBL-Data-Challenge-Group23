@@ -206,7 +206,7 @@ print(tweets_df)
 test = count_updater(tweets_df, updated_counts_df)
 
 # descriptive statistics
-decriptive_statistics(tweets_df, conversations_df, cleaned_conversations)
+# decriptive_statistics(tweets_df, conversations_df, cleaned_conversations)
 
 
 
