@@ -32,7 +32,8 @@ ax1.set_title("Distribution of languages of tweets", size=14)
 plt.show()
 
 ####################################################    PLOT 2
-tweets_per_day = tweets_per_weekday(tweets)
+tweets_per_day_old = tweets_per_weekday(tweets)
+tweets_per_day = [elem * 22 for elem in tweets_per_day_old]
 categories = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 plt.bar(categories, tweets_per_day, color='maroon',
@@ -44,8 +45,9 @@ plt.show()
 
 
 ####################################################    PLOT 3
-sent, received = tweets_per_airline(tweets)
-
+sent_old, received_old = tweets_per_airline(tweets)
+sent = [elem * 22 for elem in sent_old]
+received = [elem * 22 for elem in received_old]
 x = np.arange(3)
 width = 0.40
 plt.bar(x - 0.2, sent, width)
@@ -57,7 +59,10 @@ plt.legend(['Sent', 'Received'])
 plt.show()
 
 ####################################################    PLOT 4
-in_business, out_business = tweets_per_hour(tweets)
+in_business_old, out_business_old = tweets_per_hour(tweets)
+in_business = [elem * 22 for elem in in_business_old]
+out_business = [elem * 22 for elem in out_business_old]
+
 fig_4, ax_4 = plt.subplots(ncols=2, nrows=1)
 ax_4_1 = sns.boxplot(data=in_business, ax=ax_4[0])
 ax_4_2 = sns.boxplot(data=out_business, ax=ax_4[1])
