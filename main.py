@@ -83,67 +83,6 @@ def create_dataframes(filepath: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Dat
     return df_tweets, df_users, df_updated_counts
 
 
-# creating dataframes from json files
-tweets, users, updated_counts = create_dictionaries("data/airlines-1558611772040.json")
-tweets_df, users_df, updated_counts_df = create_dataframes("data/airlines-1558611772040.json")
-
-# creating conversation dataframes
-conversations = conversations_list_builder(tweets)
-cleaned_conversations = conversations_cleaner(conversations)
-conversations_df = conversations_list_to_df(cleaned_conversations)
-
-df_list = split_df(tweets_df, company_names)
-df_klm, df_af, df_ba, df_aa, df_lh, df_ab, df_ab_ass, df_ej, df_ra, df_sa, df_qa, df_ea, df_va = df_list
-
-######################## for debugging purposes
-
-######################## print dataframes
-print(tweets_df)
-print(conversations_df)
-
-# print(df_klm)
-# print(df_ba)
-
-
-# jeroen's test
-test = count_updater(tweets_df, updated_counts_df)
-
-
-# print(test)
-
-def decriptive_statistics(tweets_df):
-    klm_tweets_df = tweets_df[tweets_df["user_id_str"] == str(klm_id)]
-    bra_tweets_df = tweets_df[tweets_df["user_id_str"] == str(ba_id)]
-
-    print(f"amount of loaded tweets after cleaning: \n{len(tweets_df)}\n"
-          f"amount of loaded conversations: \n{len(conversations_df)}\n"
-          f"amount of tweets per conversation within bound: \n"
-          f"{min(len(conversation) for conversation in cleaned_conversations)} < amount < "
-          f"{max(len(conversation) for conversation in cleaned_conversations)}\n"
-          f"average amount of tweets per conversation: \n{mean(len(conversation) for conversation in cleaned_conversations)}\n"
-          f"\n"
-          f"amount of tweets send by KLM: \n{len(klm_tweets_df)}\n"
-          f"amount of tweets send by British Airways: \n{len(bra_tweets_df)}\n"
-          )
-
-    decriptive_count = ["quote_count", "reply_count", "retweet_count", "favorite_count"]
-    print("\nCumulative counts of quotes, replies, retweets and favorites of KLM and British Airways:\n",
-          pd.DataFrame({"KLM": dict((count, sum(klm_tweets_df[count])) for count in decriptive_count),
-                        "British Airways": dict((count, sum(bra_tweets_df[count])) for count in decriptive_count)}
-                       )
-          )
-    print("\nAverage counts of quotes, replies, retweets and favorites of KLM and British Airways per 100 tweets:\n",
-          pd.DataFrame({"KLM": dict((count, sum(klm_tweets_df[count]) / len(klm_tweets_df))
-                                    for count in decriptive_count),
-                        "British Airways": dict((count, sum(bra_tweets_df[count]) / len(bra_tweets_df))
-                                                for count in decriptive_count)}
-                       )
-          )
-
-
-decriptive_statistics(tweets_df)
-
-
 def run_data_directory(dir_name: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Run with all data in given directory. Returns 3 complete dataframes. Runtime ~ 11 minutes.
     """
@@ -183,6 +122,7 @@ def save_cleaned_dfs(directory: str, tweets_cum_split, company_name):
         file.close()
 
 
+######################## for debugging purposes
 # creating dataframes from json files
 tweets, users, updated_counts = create_dictionaries("data/airlines-1558611772040.json")
 tweets_df, users_df, updated_counts_df = create_dataframes("data/airlines-1558611772040.json")
@@ -192,28 +132,15 @@ conversations = conversations_list_builder(tweets)
 cleaned_conversations = conversations_cleaner(conversations)
 conversations_df = conversations_list_to_df(cleaned_conversations)
 
-
 df_list = split_df(tweets_df, company_names)
 df_klm, df_af, df_ba, df_aa, df_lh, df_ab, df_ab_ass, df_ej, df_ra, df_sa, df_qa, df_ea, df_va = df_list
 
-######################## for debugging purposes
-
 ######################## print dataframes
 print(tweets_df)
-# print(conversations_df)
+print(conversations_df)
+decriptive_statistics(tweets_df, conversations_df, cleaned_conversations)
 
-# jeroen's test
-test = count_updater(tweets_df, updated_counts_df)
-
-# descriptive statistics
-# decriptive_statistics(tweets_df, conversations_df, cleaned_conversations)
-
-
-
-
-
-tweets_cum, users_cum, updated_counts_cum = run_data_directory("data")
-tweets_cum_split = split_df(tweets_cum, company_names)
-save_cleaned_dfs("Clean_data", tweets_cum_split, company_names)
-# decriptive_statistics(tweets_cum)
-
+df_tweets = pd.read_pickle(r"C:\Users\yamez\Downloads\full_cleaned_data\all_tweets_df (updated with id_str as index).pickle")
+df = df_tweets[~df_tweets.index.duplicated(keep="first")]
+conversations_df = conversation_builder(df)
+conversations_df.to_pickle(r"C:\Users\yamez\Downloads\full_cleaned_data\all_conversations_df (min 2 players, 3-len-49, chronological order).pickle")
