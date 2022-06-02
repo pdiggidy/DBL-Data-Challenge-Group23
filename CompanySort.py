@@ -16,9 +16,9 @@ import re
 # Qantas     218730857              10
 # EtihadAirways   45621423          11
 # VirginAtlantic   20626359         12
-company_names = ["klm", "airfrance", "britishairways", "armericanair", "lufthansa", "airberlin", "airberlinassist",
-                 "easyjet", "ryanair", "singaporeair", "qantas", "ethihadairways", "virginatlantic"]
-company_id_list = [56377143, 106062176, 18332190, 22536055, 124476322, 26223583, 2182373406, 38676903, 1542862735,
+company_names = ["KLM", "AirFrance", "BritishAirways", "AmericanAir", "Lufthansa",
+                 "EasyJet", "Ryanair", "SingaporeAir", "Qantas", "Ethihad", "VirginAtlantic"]
+company_id_list = [56377143, 106062176, 18332190, 22536055, 124476322,38676903, 1542862735,
                    253340062, 218730857, 45621423, 20626359]
 
 

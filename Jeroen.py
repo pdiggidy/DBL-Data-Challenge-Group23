@@ -1,32 +1,46 @@
+import os
+from sqlalchemy import create_engine
 import pandas as pd
+from CompanySort import *
+from matplotlib import pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# My personal testing file :)
 
 
-def count_updater(original_df: pd.DataFrame, updated_values: pd.DataFrame) -> pd.DataFrame:
-    """Docstring
-    """
+connection = create_engine(os.environ["DB_STRING"]).connect()
 
-    try:  # for the first time when residu doesn't exist yet
-        updated_values = updated_values.append(residu)
-    except:
-        True
 
-    residu = pd.DataFrame()  # To reset it, since all current entries have been added to updated_values
-    for id, row in updated_values.iterrows():  # here id is the tweet id, and row are the updated values
-        id = str(id)
-        if id in original_df.index:
-            if original_df.loc[id, "quote_count"] < row["quote_count"]:   # Checks to make sure the highest
-                original_df.loc[id, "quote_count"] = row["quote_count"]   # value is used.
-            if original_df.loc[id, "reply_count"] < row["reply_count"]:
-                original_df.loc[id, "reply_count"] = row["reply_count"]
-            if original_df.loc[id, "retweet_count"] < row["retweet_count"]:
-                original_df.loc[id, "retweet_count"] = row["retweet_count"]
-            if original_df.loc[id, "favorite_count"] < row["favorite_count"]:
-                original_df.loc[id, "favorite_count"] = row["favorite_count"]
+def sent_received():
+    df_a = pd.DataFrame()
+    for i in range(len(company_names)):
+        df_a.loc[i, "Name"] = company_names[i]
+        df_a.loc[i, "id"] = str(company_id_list[i])
 
-        else:
-            residu.loc[id, "quote_count"] = row["quote_count"]
-            residu.loc[id, "reply_count"] = row["reply_count"]
-            residu.loc[id, "retweet_count"] = row["retweet_count"]
-            residu.loc[id, "favorite_count"] = row["favorite_count"]
+    for j in range(len(df_a)):
+        df_airline = pd.read_sql_table(df_a.loc[j, "Name"], connection)
+        sent = 0
+        received = 0
+        for tw in range(len(df_airline)):
+            if str(df_airline.loc[tw, "user_id_str"]) == df_a.loc[j, "id"]:
+                sent += 1
+            else:
+                received += 1
+        df_a.loc[j, "sent"] = sent
+        df_a.loc[j, "received"] = received
+    return df_a
 
-    return original_df
+
+df_sent_receive = sent_received()
+print(df_sent_receive)
+fig = plt.figure(figsize=(16, 9))
+ax = fig.add_axes([0, 0, 1, 1])
+
+ax.bar(df_sent_receive["Name"], df_sent_receive["received"], width=0.8, color="b", label="Tweets received")
+ax.bar(df_sent_receive["Name"], df_sent_receive["sent"], width=0.8, color="orange", alpha=0.8, label="Tweets sent")
+plt.title("The amount of tweets sent and received per airline", size=16, weight="bold")
+plt.xlabel("Airline")
+plt.ylabel("Tweets")
+plt.legend(["Tweets received", "Tweets sent"])
+plt.savefig('image1.png', bbox_inches='tight')
