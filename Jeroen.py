@@ -4,6 +4,7 @@ from CompanySort import *
 from matplotlib import pyplot as plt
 import pandas as pd
 from datetime import datetime
+import math as math
 from Lists import *
 import statistics as stat
 import seaborn as sns
@@ -241,33 +242,120 @@ def avg_conv_length():
     df_klm["id_str"] = df_klm["id_str"].astype("str")
     df_ba = pd.read_sql_table("BritishAirways", connection)
     df_ba["id_str"] = df_ba["id_str"].astype("str")
+    klm_set = set(df_klm["id_str"])
+    ba_set = set(df_ba["id_str"])
     for i in range(len(df_conv)):
-        #print(i)
+        print(i)
         convlen = 0
         for x in range(50):
             if df_conv.iloc[i, x] == "0":
-                convlen = x - 1
+                convlen = x
                 break
-        if df_conv.loc[i, "1"] == "1130822387044442112":
-            print("a")
-        if df_conv.loc[i, "1"] == 1130822387044442112:
-            print("b")
-        if df_conv.loc[i, "1"] in df_klm["id_str"]:
+
+        if df_conv.loc[i, "1"] in klm_set:
             conversation_length_klm.append(convlen)
-        elif df_conv.loc[i, "1"] in df_ba["id_str"]:
+        elif df_conv.loc[i, "1"] in ba_set:
             conversation_length_ba.append(convlen)
         else:
             conversation_length_other.append(convlen)
-    print(conversation_length_klm)
-    print(conversation_length_ba)
+    return conversation_length_klm, conversation_length_ba, conversation_length_other
+
+
+def img_avg_conv_length(conversation_length_klm, conversation_length_ba, conversation_length_other):
+    fig, ax_8 = plt.subplots(ncols=3, nrows=1, sharey=True)
+    ax_8_1 = sns.violinplot(data=conversation_length_klm, ax=ax_8[0])
+    ax_8_2 = sns.violinplot(data=conversation_length_ba, ax=ax_8[1])
+    ax_8_3 = sns.violinplot(data=conversation_length_other, ax=ax_8[2])
+    ax_8_1.set_ylim([0, 10])
+    ax_8_1.set_title('KLM')
+    ax_8_2.set_title('BA')
+    ax_8_3.set_title('Others')
+    ax_8_1.set_ylabel("Conversation length (in tweets)")
+    fig.suptitle('Distribution of conversation length per airline', weight='bold', size=14)
+    plt.savefig("avg_conv_len.png", bbox_inches='tight')
+
+def resp_time():
+    response_times_klm = []
+    response_times_ba = []
+    response_times_other = []
+    minute_times_klm = []
+    minute_times_ba = []
+    minute_times_other = []
+
+    klm_id = 56377143
+    ba_id = 18332190
+    other_airlines = [106062176, 22536055, 124476322, 38676903, 1542862735,
+                      253340062, 218730857, 45621423, 20626359]
+
+    df = pd.read_sql_table("All_tweets", connection)
+    df = df.set_index("id_str")
+    indic = list(df.index)
+    dt1 = datetime.now()
+
+    for x in range(len(df)):
+        print(x)
+        i = indic[x]
+        j = df.loc[i, "in_reply_to_status_id_str"]
+        if math.isnan(j):
+            continue
+        j = int(j)
+
+        if j is not None and j in indic:
+            user_id = int(df.loc[i, "user_id_str"])
+
+            if user_id == klm_id:
+                response_times_klm.append(abs(int(df.loc[i, 'timestamp_ms']) - int(df.loc[j, 'timestamp_ms'])))
+
+            if user_id == ba_id:
+                response_times_ba.append(abs(int(df.loc[i, 'timestamp_ms']) - int(df.loc[j, 'timestamp_ms'])))
+
+            if user_id in other_airlines:
+                response_times_other.append(abs(int(df.loc[i, 'timestamp_ms']) - int(df.loc[j, 'timestamp_ms'])))
+
+    for time in response_times_klm:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_klm.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_ba:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_ba.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_other:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_other.append(time_object.hour*60 + time_object.minute)
+
+    dt2 = datetime.now()
+    print(dt1, dt2)
+    return minute_times_klm, minute_times_ba, minute_times_other
+
+
+def img_resp_time(response_klm, response_ba, response_other):
+    fig, ax_6 = plt.subplots(ncols=3, nrows=1, sharey=True)
+    ax_1 = sns.boxplot(data=response_klm, ax=ax_6[0])
+    ax_2 = sns.boxplot(data=response_ba, ax=ax_6[1])
+    ax_3 = sns.boxplot(data=response_other, ax=ax_6[2])
+    ax_1.set_ylim([0, 400])
+    ax_1.set_title('KLM')
+    ax_2.set_title('BA')
+    ax_3.set_title('Others')
+    ax_1.set_ylabel("Response time (in minutes)")
+
+    fig.suptitle('Distributions of response times per airline', weight='bold', size=14)
+    plt.savefig("resp_time.png", bbox_inches='tight')
+
 
 # df_sent_received = sent_received()
 # print(df_sent_received)
 # img_sent_received(df_sent_received)
+
 # df_dw = day_week()
 # print(df_dw)
 # img_day_week(df_dw)
+
 # intw, outtw = tweets_per_hour()
 # img_tweets_per_hour(intw, outtw)
-avg_conv_length()
+
+# a, b, c = avg_conv_length()
+# img_avg_conv_length(a, b, c)
+
+d, e, f = resp_time()
+img_resp_time(d, e, f)
 
