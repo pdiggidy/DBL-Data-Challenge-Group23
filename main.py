@@ -3,7 +3,6 @@ import pickle
 from Cleaning import *
 from Conversations import *
 from CompanySort import *
-from Jeroen import *  # for testing
 from DataStatistics import *
 
 

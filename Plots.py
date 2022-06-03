@@ -70,7 +70,7 @@ ax_4_1.set_title("During business hours")
 ax_4_2.set_title("Outside business hours")
 ax_4_1.set_ylabel("Amount of tweets per hour")
 fig_4.suptitle('Amount of tweets per hour during and outside of business hours', weight= 'bold')
-plt.show()
+plt.savefig("test.png")
 
 ####################################################    PLOT 5a
 conversation_length_klm,\

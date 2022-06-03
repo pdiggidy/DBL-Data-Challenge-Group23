@@ -146,12 +146,127 @@ def img_day_week(df):
             o += 1
         plt.savefig('day_week.png', bbox_inches='tight')
 
+def tweets_per_hour():
+    """Tweets per hour of the day."""
 
-#df_sent_received = sent_received()
-#print(df_sent_received)
-#img_sent_received(df_sent_received)
-df_dw = day_week()
-print(df_dw)
-img_day_week(df_dw)
+    monday_tweets_in = 0
+    tuesday_tweets_in = 0
+    wednesday_tweets_in = 0
+    thursday_tweets_in = 0
+    friday_tweets_in = 0
 
+    monday_tweets_out = 0
+    tuesday_tweets_out = 0
+    wednesday_tweets_out = 0
+    thursday_tweets_out = 0
+    friday_tweets_out = 0
+    saturday_tweets_out = 0
+    sunday_tweets_out = 0
+
+    df_a = pd.DataFrame()
+    for i in range(len(company_names)):
+        df_a.loc[i, "Name"] = company_names[i]
+        df_a.loc[i, "id"] = str(company_id_list[i])
+
+    for j in range(len(df_a)):
+        df_airline = pd.read_sql_table(df_a.loc[j, "Name"], connection)
+        for x in range(len(df_airline)):
+            weekday = datetime.weekday(datetime.fromtimestamp(int(df_airline.loc[x, "timestamp_ms"])/1000))
+            hour = datetime.fromtimestamp(int(df_airline.loc[x, "timestamp_ms"])/1000).hour
+
+            if weekday == 0:
+                if 9 <= hour < 17:
+                    monday_tweets_in += 1
+                else:
+                    monday_tweets_out += 1
+            if weekday == 1:
+                if 9 <= hour < 17:
+                    tuesday_tweets_in += 1
+                else:
+                    tuesday_tweets_out += 1
+            if weekday == 2:
+                if 9 <= hour < 17:
+                    wednesday_tweets_in += 1
+                else:
+                    wednesday_tweets_out += 1
+            if weekday == 3:
+                if 9 <= hour < 17:
+                    thursday_tweets_in+= 1
+                else:
+                    thursday_tweets_out += 1
+            if weekday == 4:
+                if 9 <= hour < 17:
+                    friday_tweets_in += 1
+                else:
+                    friday_tweets_out += 1
+            if weekday == 5:
+                saturday_tweets_out += 1
+            if weekday == 6:
+                sunday_tweets_out += 1
+
+    in_business = [monday_tweets_in, tuesday_tweets_in, wednesday_tweets_in,
+                   thursday_tweets_in, friday_tweets_in]
+    out_business = [monday_tweets_out, tuesday_tweets_out, wednesday_tweets_out, thursday_tweets_out,
+                    friday_tweets_out, saturday_tweets_out, sunday_tweets_out]
+
+    print('in business is:')
+    print(in_business)
+    print('out business is:')
+    print(out_business)
+    return in_business, out_business
+
+
+def img_tweets_per_hour(in_business, out_business):
+    fig_4, ax_4 = plt.subplots(ncols=2, nrows=1, figsize=(16, 9), sharey=True)
+    ax_4_1 = sns.boxplot(data=in_business, ax=ax_4[0])
+    ax_4_2 = sns.boxplot(data=out_business, ax=ax_4[1])
+    ax_4_1.set_title("During business hours")
+    ax_4_2.set_title("Outside business hours")
+    ax_4_1.set_ylabel("Amount of tweets per hour")
+    ax_4_1.set_xlabel("")
+    ax_4_2.set_xlabel("")
+    fig_4.suptitle('Amount of tweets per hour during and outside of business hours', weight='bold')
+    plt.savefig("twperhour.png", bbox_inches='tight')
+
+
+def avg_conv_length():
+    conversation_length_klm = []
+    conversation_length_ba = []
+    conversation_length_other = []
+    df_conv = pd.read_sql_table("Conversations", connection)
+    for i in range(1, 49):
+        df_conv[str(i)] = df_conv[str(i)].astype("str")
+    df_klm = pd.read_sql_table("KLM", connection)
+    df_klm["id_str"] = df_klm["id_str"].astype("str")
+    df_ba = pd.read_sql_table("BritishAirways", connection)
+    df_ba["id_str"] = df_ba["id_str"].astype("str")
+    for i in range(len(df_conv)):
+        #print(i)
+        convlen = 0
+        for x in range(50):
+            if df_conv.iloc[i, x] == "0":
+                convlen = x - 1
+                break
+        if df_conv.loc[i, "1"] == "1130822387044442112":
+            print("a")
+        if df_conv.loc[i, "1"] == 1130822387044442112:
+            print("b")
+        if df_conv.loc[i, "1"] in df_klm["id_str"]:
+            conversation_length_klm.append(convlen)
+        elif df_conv.loc[i, "1"] in df_ba["id_str"]:
+            conversation_length_ba.append(convlen)
+        else:
+            conversation_length_other.append(convlen)
+    print(conversation_length_klm)
+    print(conversation_length_ba)
+
+# df_sent_received = sent_received()
+# print(df_sent_received)
+# img_sent_received(df_sent_received)
+# df_dw = day_week()
+# print(df_dw)
+# img_day_week(df_dw)
+# intw, outtw = tweets_per_hour()
+# img_tweets_per_hour(intw, outtw)
+avg_conv_length()
 
