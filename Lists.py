@@ -2,7 +2,7 @@ remove_tweet_attr: list = ['created_at', 'id', 'display_text_range', 'source', '
                            'in_reply_to_user_id', 'in_reply_to_screen_name', 'geo', 'coordinates',
                            'contributors', 'entities', 'is_quote_status', 'extended_entities', 'favorited', 'retweeted',
                            'possibly_sensitive', 'filter_level', 'quoted_status_id',
-                           'quoted_status', 'quoted_status_permalink']
+                           'quoted_status', 'quoted_status_permalink', 'withheld_in_countries']
 remove_user_info_attr: list = ['id', 'name', 'screen_name', 'location', 'url', 'description', 'translator_type',
                                'protected', 'friends_count', 'listed_count',
                                'favourites_count', 'statuses_count', 'created_at',

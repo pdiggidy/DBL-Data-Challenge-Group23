@@ -52,3 +52,52 @@ def conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:
     del conversations_df_indexed[0]                   # remove the now redundant and duplicant column
 
     return conversations_df_indexed
+
+def conversation_builder(df: pd.DataFrame):
+    all_tweetID: set = set(df.index)    # alle tweets (exl dubbel)
+    tweetID_replytotweetID: dict = df["in_reply_to_status_id_str"].dropna().to_dict()
+    tweetID_userID: pd.Series = df["user_id_str"].to_dict()
+
+    replies_tweetID: set = set(tweetID_replytotweetID.keys())       # tweets met IRT (exl dubbel)
+    parent_tweetID: set = set(tweetID_replytotweetID.values())      # tweets that have a reply
+    children_tweetID = replies_tweetID.difference(parent_tweetID)   # tweets that ARE replies
+
+    all_conversations = []
+
+    # start a conversation from each Conversation Starter
+    for id_str in children_tweetID:
+        conversation = []
+
+        # compile a whole conversation from bottom to top
+        while True:
+            conversation.append(id_str)                             # CBA
+            id_str = tweetID_replytotweetID.get(id_str, None)       # id=B, id=A, id=None
+            if not id_str:  # if not None                           # 001
+                break
+
+        # reverse the conversation so the first tweet will be in the first row.
+        conversation.reverse()
+
+        # only keep conversations with at least 2 people
+        people = set()
+        less_than_1_person = True
+        for i in range(len(conversation)):
+            tweet_id = conversation[i]
+            user_id_str = tweetID_userID.get(tweet_id)
+            if user_id_str is None:
+                break
+            people.add(user_id_str)
+            if len(people) > 1:
+                less_than_1_person = False
+                break
+        if less_than_1_person:
+            continue
+
+        # only append conversations that are between 3 and 50 tweets long, and for which all tweet data is available
+        if 2 < len(conversation) < 50 and conversation[0] in all_tweetID:
+            all_conversations.append(conversation)
+
+    conversations_df = pd.DataFrame(all_conversations, columns=range(1,1+len(max(all_conversations, key=len))))
+    return conversations_df
+
+
