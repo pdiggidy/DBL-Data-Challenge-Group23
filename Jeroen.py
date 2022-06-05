@@ -275,42 +275,37 @@ def img_avg_conv_length(conversation_length_klm, conversation_length_ba, convers
     plt.savefig("avg_conv_len.png", bbox_inches='tight')
 
 def resp_time():
-    response_times_klm = []
-    response_times_ba = []
-    response_times_other = []
+
     minute_times_klm = []
     minute_times_ba = []
     minute_times_other = []
 
-    klm_id = 56377143
-    ba_id = 18332190
-    other_airlines = [106062176, 22536055, 124476322, 38676903, 1542862735,
-                      253340062, 218730857, 45621423, 20626359]
+    query_klm = """
+    SELECT REPLY.id_str, REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+        FROM All_tweets BASIS
+            INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str  = 56377143           
+    """
 
-    df = pd.read_sql_table("All_tweets", connection)
-    df = df.set_index("id_str")
-    indic = list(df.index)
-    dt1 = datetime.now()
+    query_ba = """
+        SELECT REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+            FROM All_tweets BASIS
+                INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str  = 18332190        
+        """
 
-    for x in range(len(df)):
-        print(x)
-        i = indic[x]
-        j = df.loc[i, "in_reply_to_status_id_str"]
-        if math.isnan(j):
-            continue
-        j = int(j)
+    query_other = """
+            SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                FROM All_tweets BASIS
+                    INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str IN 
+                    (106062176, 22536055, 124476322, 38676903, 1542862735,
+                      253340062, 218730857, 45621423, 20626359)    
+            """
 
-        if j is not None and j in indic:
-            user_id = int(df.loc[i, "user_id_str"])
-
-            if user_id == klm_id:
-                response_times_klm.append(abs(int(df.loc[i, 'timestamp_ms']) - int(df.loc[j, 'timestamp_ms'])))
-
-            if user_id == ba_id:
-                response_times_ba.append(abs(int(df.loc[i, 'timestamp_ms']) - int(df.loc[j, 'timestamp_ms'])))
-
-            if user_id in other_airlines:
-                response_times_other.append(abs(int(df.loc[i, 'timestamp_ms']) - int(df.loc[j, 'timestamp_ms'])))
+    df_klm = pd.read_sql_query(query_klm, connection)
+    df_ba = pd.read_sql_query(query_ba, connection)
+    df_other = pd.read_sql_query(query_other, connection)
+    response_times_klm = list(df_klm["DiffTimeStamp"])
+    response_times_ba = list(df_ba["DiffTimeStamp"])
+    response_times_other = list(df_other["DiffTimeStamp"])
 
     for time in response_times_klm:
         time_object = datetime.fromtimestamp(time/1000)
@@ -322,8 +317,6 @@ def resp_time():
         time_object = datetime.fromtimestamp(time/1000)
         minute_times_other.append(time_object.hour*60 + time_object.minute)
 
-    dt2 = datetime.now()
-    print(dt1, dt2)
     return minute_times_klm, minute_times_ba, minute_times_other
 
 
