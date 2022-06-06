@@ -97,7 +97,9 @@ def conversation_builder(df: pd.DataFrame):
         if 2 < len(conversation) < 50 and conversation[0] in all_tweetID:
             all_conversations.append(conversation)
 
-    conversations_df = pd.DataFrame(all_conversations, columns=range(1,1+len(max(all_conversations, key=len))))
+    conversations_df = pd.DataFrame(all_conversations, columns=range(1, 1+len(max(all_conversations, key=len))))
     return conversations_df
+
+
 
 
