@@ -18,8 +18,7 @@ import re
 # VirginAtlantic   20626359         12
 company_names = ["KLM", "AirFrance", "BritishAirways", "AmericanAir", "Lufthansa",
                  "EasyJet", "Ryanair", "SingaporeAir", "Qantas", "Ethihad", "VirginAtlantic"]
-company_id_list = [56377143, 106062176, 18332190, 22536055, 124476322,38676903, 1542862735,
-                   253340062, 218730857, 45621423, 20626359]
+company_id_list = [56377143, 106062176, 18332190, 22536055, 124476322, 38676903, 1542862735, 253340062, 218730857, 45621423, 20626359]
 
 
 def find_company(company_ids: List, company_names: List, tweet: Dict = None) -> List:

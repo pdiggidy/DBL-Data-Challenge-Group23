@@ -4,8 +4,9 @@ from CompanySort import *
 from matplotlib import pyplot as plt
 import pandas as pd
 from datetime import datetime
+import math as math
 from Lists import *
-import statistics as stat
+import statistics
 import seaborn as sns
 import numpy as np
 
@@ -241,33 +242,230 @@ def avg_conv_length():
     df_klm["id_str"] = df_klm["id_str"].astype("str")
     df_ba = pd.read_sql_table("BritishAirways", connection)
     df_ba["id_str"] = df_ba["id_str"].astype("str")
+    klm_set = set(df_klm["id_str"])
+    ba_set = set(df_ba["id_str"])
     for i in range(len(df_conv)):
-        #print(i)
+        print(i)
         convlen = 0
         for x in range(50):
             if df_conv.iloc[i, x] == "0":
-                convlen = x - 1
+                convlen = x
                 break
-        if df_conv.loc[i, "1"] == "1130822387044442112":
-            print("a")
-        if df_conv.loc[i, "1"] == 1130822387044442112:
-            print("b")
-        if df_conv.loc[i, "1"] in df_klm["id_str"]:
+
+        if df_conv.loc[i, "1"] in klm_set:
             conversation_length_klm.append(convlen)
-        elif df_conv.loc[i, "1"] in df_ba["id_str"]:
+        elif df_conv.loc[i, "1"] in ba_set:
             conversation_length_ba.append(convlen)
         else:
             conversation_length_other.append(convlen)
-    print(conversation_length_klm)
-    print(conversation_length_ba)
+    return conversation_length_klm, conversation_length_ba, conversation_length_other
+
+
+def img_avg_conv_length(conversation_length_klm, conversation_length_ba, conversation_length_other):
+    fig, ax_8 = plt.subplots(ncols=3, nrows=1, sharey=True)
+    ax_8_1 = sns.violinplot(data=conversation_length_klm, ax=ax_8[0])
+    ax_8_2 = sns.violinplot(data=conversation_length_ba, ax=ax_8[1])
+    ax_8_3 = sns.violinplot(data=conversation_length_other, ax=ax_8[2])
+    ax_8_1.set_ylim([0, 10])
+    ax_8_1.set_title('KLM')
+    ax_8_2.set_title('BA')
+    ax_8_3.set_title('Others')
+    ax_8_1.set_ylabel("Conversation length (in tweets)")
+    fig.suptitle('Distribution of conversation length per airline', weight='bold', size=14)
+    plt.savefig("avg_conv_len.png", bbox_inches='tight')
+
+
+def resp_time():
+
+    query_klm = """
+    SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+        FROM All_tweets BASIS
+            INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str  = 56377143           
+    """
+
+    query_ba = """
+        SELECT REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+            FROM All_tweets BASIS
+                INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str  = 18332190        
+        """
+
+    query_ej = """
+            SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                FROM All_tweets BASIS
+                    INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                    38676903  
+            """
+
+    query_ra = """
+     SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+        FROM All_tweets BASIS
+                INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                1542862735 
+    """
+
+    query_af = """
+         SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+            FROM All_tweets BASIS
+                    INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                    106062176 
+        """
+
+    query_aa = """
+             SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                FROM All_tweets BASIS
+                        INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                        22536055 
+            """
+
+    query_lh = """
+                 SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                    FROM All_tweets BASIS
+                            INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                            124476322 
+                """
+
+    query_sa = """
+                     SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                        FROM All_tweets BASIS
+                                INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                                253340062 
+                    """
+
+    query_qt = """
+                         SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                            FROM All_tweets BASIS
+                                    INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                                    218730857 
+                        """
+
+    query_et = """
+                             SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                                FROM All_tweets BASIS
+                                        INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                                        45621423 
+                            """
+
+    query_va = """
+                                 SELECT REPLY.user_id_str, REPLY.timestamp_ms - BASIS.timestamp_ms AS DiffTimeStamp
+                                    FROM All_tweets BASIS
+                                            INNER JOIN All_tweets REPLY on REPLY.in_reply_to_status_id_str = BASIS.id_str AND REPLY.user_id_str =
+                                            20626359 
+                                """
+    minute_times_klm = []
+    minute_times_ba = []
+    minute_times_ej = []
+    minute_times_ra = []
+    minute_times_af = []
+    minute_times_aa = []
+    minute_times_lh = []
+    minute_times_sa = []
+    minute_times_qt = []
+    minute_times_et = []
+    minute_times_va = []
+    df_klm = pd.read_sql_query(query_klm, connection)
+    df_ba = pd.read_sql_query(query_ba, connection)
+    df_ej = pd.read_sql_query(query_ej, connection)
+    df_ra = pd.read_sql_query(query_ra, connection)
+    df_af = pd.read_sql_query(query_af, connection)
+    df_aa = pd.read_sql_query(query_aa, connection)
+    df_lh = pd.read_sql_query(query_lh, connection)
+    df_sa = pd.read_sql_query(query_sa, connection)
+    df_qt = pd.read_sql_query(query_qt, connection)
+    df_et = pd.read_sql_query(query_et, connection)
+    df_va = pd.read_sql_query(query_va, connection)
+    response_times_klm = list(df_klm["DiffTimeStamp"])
+    response_times_ba = list(df_ba["DiffTimeStamp"])
+    response_times_ej = list(df_ej["DiffTimeStamp"])
+    response_times_ra = list(df_ra["DiffTimeStamp"])
+    response_times_af = list(df_af["DiffTimeStamp"])
+    response_times_aa = list(df_aa["DiffTimeStamp"])
+    response_times_lh = list(df_lh["DiffTimeStamp"])
+    response_times_sa = list(df_sa["DiffTimeStamp"])
+    response_times_qt = list(df_qt["DiffTimeStamp"])
+    response_times_et = list(df_et["DiffTimeStamp"])
+    response_times_va = list(df_va["DiffTimeStamp"])
+
+    for time in response_times_klm:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_klm.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_ba:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_ba.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_ej:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_ej.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_ra:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_ra.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_af:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_af.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_aa:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_aa.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_lh:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_lh.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_sa:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_sa.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_qt:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_qt.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_et:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_et.append(time_object.hour*60 + time_object.minute)
+    for time in response_times_va:
+        time_object = datetime.fromtimestamp(time/1000)
+        minute_times_va.append(time_object.hour*60 + time_object.minute)
+
+    return minute_times_klm, minute_times_ba, minute_times_ej, minute_times_ra, minute_times_af, minute_times_aa, minute_times_lh, minute_times_sa, minute_times_qt, minute_times_et, minute_times_va
+
+
+def img_resp_time(response_klm, response_ba, response_ej, response_ra, response_af, response_aa, response_lh, response_sa, response_qt, response_et, response_va):
+    fig, ax_6 = plt.subplots(ncols=11, nrows=1, sharey=True, figsize=(16, 9))
+    ax_1 = sns.violinplot(data=response_klm, ax=ax_6[0])
+    ax_2 = sns.violinplot(data=response_ba, ax=ax_6[1])
+    ax_3 = sns.violinplot(data=response_ej, ax=ax_6[2])
+    ax_4 = sns.violinplot(data=response_ra, ax=ax_6[3])
+    ax_5 = sns.violinplot(data=response_af, ax=ax_6[4])
+    ax_61 = sns.violinplot(data=response_aa, ax=ax_6[5])
+    ax_7 = sns.violinplot(data=response_lh, ax=ax_6[6])
+    ax_8 = sns.violinplot(data=response_sa, ax=ax_6[7])
+    ax_9 = sns.violinplot(data=response_qt, ax=ax_6[8])
+    ax_10 = sns.violinplot(data=response_et, ax=ax_6[9])
+    ax_11 = sns.violinplot(data=response_va, ax=ax_6[10])
+    ax_1.set_ylim(0, 400)
+    ax_1.set_title('KLM')
+    ax_2.set_title('BA')
+    ax_3.set_title('EJ')
+    ax_4.set_title("RA")
+    ax_5.set_title("AF")
+    ax_61.set_title("AA")
+    ax_7.set_title("LH")
+    ax_8.set_title("SA")
+    ax_9.set_title("QT")
+    ax_10.set_title("ET")
+    ax_11.set_title("VA")
+    ax_1.set_ylabel("Response time (mins)")
+    fig.suptitle('Distributions of response times per airline', weight='bold', size=14)
+    plt.savefig("resp_time.png", bbox_inches='tight')
+
 
 # df_sent_received = sent_received()
 # print(df_sent_received)
 # img_sent_received(df_sent_received)
+
 # df_dw = day_week()
 # print(df_dw)
 # img_day_week(df_dw)
+
 # intw, outtw = tweets_per_hour()
 # img_tweets_per_hour(intw, outtw)
-avg_conv_length()
+
+# a, b, c = avg_conv_length()
+# img_avg_conv_length(a, b, c)
+
+d, e, f, g, h, i, j, k, l, m, n = resp_time()
+img_resp_time(d, e, f, g, h, i, j, k, l, m, n)
 
