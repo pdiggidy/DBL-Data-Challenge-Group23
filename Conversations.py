@@ -101,5 +101,6 @@ def conversation_builder(df: pd.DataFrame):
     return conversations_df
 
 
+    connection =
 
 
