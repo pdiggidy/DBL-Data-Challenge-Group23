@@ -16,7 +16,7 @@ for x in range(1, 50):
     q = f"""
     SELECT Con.{x} as tweet_id, AT.user_id_str as user_id, {x} as msg_nr, Con.index as conv_id, AT.sentiment as sentiment
         FROM  Conversations Con
-        INNER JOIN All_tweets AT on Con.{x} = AT.id_str
+        INNER JOIN All_tweets_labeled AT on Con.{x} = AT.id_str
     
     """
 
@@ -26,5 +26,7 @@ for x in range(1, 50):
 df_conv = df_conv.set_index(["conv_id", "msg_nr"])
 df_conv = df_conv.sort_index()
 print(df_conv)
-df_conv_numpy = df_conv.to_numpy()
+#engine = create_engine(os.environ["DB_STRING"])  #Deze 2 regels zouden het op de server moeten zetten
+#df_conv.to_sql("Conversations updated", engine, schema="Tweets_Data", if_exists="replace")
+#df_conv_numpy = df_conv.to_numpy()
 connection.close()

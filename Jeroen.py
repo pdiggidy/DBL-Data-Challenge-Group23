@@ -451,6 +451,8 @@ def img_resp_time(response_klm, response_ba, response_ej, response_ra, response_
     fig.suptitle('Distributions of response times per airline', weight='bold', size=14)
     plt.savefig("resp_time.png", bbox_inches='tight')
 
+#def fun():
+
 
 # df_sent_received = sent_received()
 # print(df_sent_received)
