@@ -234,7 +234,7 @@ def avg_conv_length():
     conversation_length_klm = []
     conversation_length_ba = []
     conversation_length_other = []
-    df_conv = pd.read_sql_table("Conversations", connection)
+    df_conv = pd.read_sql_table("Conversations_max_50", connection)
     for i in range(1, 49):
         df_conv[str(i)] = df_conv[str(i)].astype("str")
     df_klm = pd.read_sql_table("KLM", connection)

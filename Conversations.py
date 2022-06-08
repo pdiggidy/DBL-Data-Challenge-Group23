@@ -54,6 +54,7 @@ def conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:
     return conversations_df_indexed
 
 def conversation_builder(df: pd.DataFrame):
+    """Create conversation dataframes from tweets dataframe."""
     all_tweetID: set = set(df.index)    # alle tweets (exl dubbel)
     tweetID_replytotweetID: dict = df["in_reply_to_status_id_str"].dropna().to_dict()
     tweetID_userID = df["user_id_str"].to_dict()
