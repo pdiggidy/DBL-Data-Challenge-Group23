@@ -54,9 +54,10 @@ def conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:
     return conversations_df_indexed
 
 def conversation_builder(df: pd.DataFrame):
+    """Create conversation dataframes from tweets dataframe."""
     all_tweetID: set = set(df.index)    # alle tweets (exl dubbel)
     tweetID_replytotweetID: dict = df["in_reply_to_status_id_str"].dropna().to_dict()
-    tweetID_userID: pd.Series = df["user_id_str"].to_dict()
+    tweetID_userID = df["user_id_str"].to_dict()
 
     replies_tweetID: set = set(tweetID_replytotweetID.keys())       # tweets met IRT (exl dubbel)
     parent_tweetID: set = set(tweetID_replytotweetID.values())      # tweets that have a reply
@@ -94,13 +95,9 @@ def conversation_builder(df: pd.DataFrame):
             continue
 
         # only append conversations that are between 3 and 50 tweets long, and for which all tweet data is available
-        if 2 < len(conversation) < 50 and conversation[0] in all_tweetID:
+        if 2 < len(conversation) < 15 and conversation[0] in all_tweetID:
             all_conversations.append(conversation)
 
     conversations_df = pd.DataFrame(all_conversations, columns=range(1, 1+len(max(all_conversations, key=len))))
     return conversations_df
-
-
-    connection =
-
 

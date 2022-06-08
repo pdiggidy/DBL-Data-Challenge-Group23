@@ -22,6 +22,7 @@ company_id_list = [56377143, 106062176, 18332190, 22536055, 124476322, 38676903,
 
 
 def find_company(company_ids: List, company_names: List, tweet: Dict = None) -> List:
+    """Takes a tweet dictionary as input and returns the company that the tweets belongs to."""
     # print(tweet["user_mentions"])
     # This code assumes we've already done the process of removing retweets and switching truncated text
     mentions = tweet["user_mentions"]  # Extract the Mentions Section of the Tweet
@@ -63,6 +64,7 @@ def find_company(company_ids: List, company_names: List, tweet: Dict = None) -> 
 
 
 def split_df(dataframe, names):
+    """Splits the dataframe with all tweets into dataframes grouped by company name. Returns list of dataframes."""
     df_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(len(names)):
         df_list[i] = dataframe[dataframe["company"] == i]
