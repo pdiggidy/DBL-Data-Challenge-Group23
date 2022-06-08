@@ -451,7 +451,6 @@ def img_resp_time(response_klm, response_ba, response_ej, response_ra, response_
     fig.suptitle('Distributions of response times per airline', weight='bold', size=14)
     plt.savefig("resp_time.png", bbox_inches='tight')
 
-#def fun():
 
 
 # df_sent_received = sent_received()
@@ -468,6 +467,201 @@ def img_resp_time(response_klm, response_ba, response_ej, response_ra, response_
 # a, b, c = avg_conv_length()
 # img_avg_conv_length(a, b, c)
 
-d, e, f, g, h, i, j, k, l, m, n = resp_time()
-img_resp_time(d, e, f, g, h, i, j, k, l, m, n)
+#d, e, f, g, h, i, j, k, l, m, n = resp_time()
+#img_resp_time(d, e, f, g, h, i, j, k, l, m, n)
 
+
+
+def fun():
+    query = """
+        SELECT C.conv_id, C.msg_nr as length
+        FROM Conversations_updated C
+        WHERE (C.conv_id, C.msg_nr) in 
+                (SELECT C.conv_id, MAX(C.msg_nr)
+                 FROM Conversations_updated C group by C.conv_id)                                                            
+    """
+    query2 = """
+        SELECT C.conv_id, C.user_id Airline
+        FROM Conversations_updated C
+        WHERE C.user_id in 
+            (56377143, 106062176, 18332190, 22536055, 124476322, 
+             38676903, 1542862735, 253340062, 218730857, 45621423, 20626359)"""
+    df = pd.read_sql_query(query, connection)
+    df2 = pd.read_sql_query(query2, connection)
+    df2 = df2.drop_duplicates()
+    df = df.set_index("conv_id")
+    df2 = df2.set_index("conv_id")
+    df_a = pd.merge(left=df, right=df2, how="inner", left_index=True, right_index=True)
+
+    # df_a[df_a["Airline"] == 56377143]  # KLM
+    # df_a[df_a["Airline"] == 18332190]  # BA
+    # df_a[df_a["Airline"] == 1542862735]  # RA
+    # df_a[df_a["Airline"] == 38676903]  # EJ
+    fig, ax_1 = plt.subplots(ncols=4, nrows=1, sharey=True)
+    ax_1_1 = sns.violinplot(data=list(df_a[df_a["Airline"] == 56377143]["length"]), ax=ax_1[0], bw=.4, cut=3)
+    ax_1_2 = sns.violinplot(data=list(df_a[df_a["Airline"] == 18332190]["length"]), ax=ax_1[1], bw=.4, cut=3)
+    ax_1_3 = sns.violinplot(data=list(df_a[df_a["Airline"] == 1542862735]["length"]), ax=ax_1[2], bw=.4, cut=3)
+    ax_1_4 = sns.violinplot(data=list(df_a[df_a["Airline"] == 38676903]["length"]), ax=ax_1[3], bw=.4, cut=3)
+    plt.suptitle("Conversation length per airline", weight="bold", size=14)
+    ax_1_1.set_ylabel("Conversation length")
+    ax_1_1.set_title("KLM")
+    ax_1_2.set_title("BA")
+    ax_1_3.set_title("RA")
+    ax_1_4.set_title("EJ")
+    ax_1_1.set_xlabel(" ")
+    ax_1_1.set_ylim(3, 15)
+    plt.savefig("avg_conv_len.png", bbox_inches="tight")
+    plt.clf()
+    y_pos = np.arange(4)
+    plt.bar(x=y_pos, height=[len(df_a[df_a["Airline"] == 56377143]), len(df_a[df_a["Airline"] == 18332190]),
+                             len(df_a[df_a["Airline"] == 1542862735]), len(df_a[df_a["Airline"] == 38676903])])
+    plt.xticks(y_pos, ["KLM", "BA", "RA", "EJ"])
+    plt.ylabel("Amount of Conversations")
+    plt.title("Amount of Conversations per airline")
+    plt.savefig("amount_conv.png", bbox_inches="tight")
+
+def img_sentiment():
+    query_max = """
+    SELECT C.conv_id, C.sentiment sentiment_last
+    FROM Conversations_updated C
+    WHERE (C.conv_id, C.msg_nr) in 
+          (SELECT C.conv_id, MAX(C.msg_nr)
+            FROM Conversations_updated C 
+            WHERE C.user_id NOT IN (56377143, 106062176, 18332190, 22536055, 124476322, 
+                 38676903, 1542862735, 253340062, 218730857, 45621423, 20626359)
+            GROUP BY C.conv_id
+                )    """
+
+    query_min = """
+        SELECT C.conv_id, C.sentiment sentiment_first
+        FROM Conversations_updated C
+        WHERE (C.conv_id, C.msg_nr) in 
+              (SELECT C.conv_id, MIN(C.msg_nr)
+                FROM Conversations_updated C 
+                WHERE C.user_id NOT IN (56377143, 106062176, 18332190, 22536055, 124476322, 
+                     38676903, 1542862735, 253340062, 218730857, 45621423, 20626359)
+                GROUP BY C.conv_id
+                    )    """
+    query_al = """
+            SELECT C.conv_id, C.user_id Airline
+            FROM Conversations_updated C
+            WHERE C.user_id in 
+                (56377143, 106062176, 18332190, 22536055, 124476322, 
+                 38676903, 1542862735, 253340062, 218730857, 45621423, 20626359)"""
+    print("0")
+    df_first = pd.read_sql_query(query_min, connection)
+    print("1")
+    df_last = pd.read_sql_query(query_max, connection)
+    print("2")
+    df_al = pd.read_sql_query(query_al, connection).drop_duplicates()
+    df_first = df_first.set_index("conv_id")
+    df_last = df_last.set_index("conv_id")
+    df_al = df_al.set_index("conv_id")
+
+    df_t = pd.merge(left=df_first, right=df_last, how="inner", left_index=True, right_index=True)
+    df = pd.merge(left=df_t, right=df_al, how="inner", left_index=True, right_index=True)
+    df_klm = df[df["Airline"] == 56377143]
+    df_ba = df[df["Airline"] == 18332190]
+    df_ra = df[df["Airline"] == 1542862735]
+    df_ej = df[df["Airline"] == 38676903]
+
+    klm_dic = dict()
+    ba_dic = dict()
+    ra_dic = dict()
+    ej_dic = dict()
+
+    klm_dic["sentiment_first"] = (len(df_klm[df_klm["sentiment_first"] == "neg"]),
+                                  len(df_klm[df_klm["sentiment_first"] == "neu"]),
+                                  len(df_klm[df_klm["sentiment_first"] == "pos"]))
+    klm_dic["sentiment_last"] = (len(df_klm[df_klm["sentiment_last"] == "neg"]),
+                                 len(df_klm[df_klm["sentiment_last"] == "neu"]),
+                                 len(df_klm[df_klm["sentiment_last"] == "pos"]))
+    print(f"klm: {klm_dic}")
+
+    ba_dic["sentiment_first"] = (len(df_ba[df_ba["sentiment_first"] == "neg"]),
+                                 len(df_ba[df_ba["sentiment_first"] == "neu"]),
+                                 len(df_ba[df_ba["sentiment_first"] == "pos"]))
+    ba_dic["sentiment_last"] = (len(df_ba[df_ba["sentiment_last"] == "neg"]),
+                                len(df_ba[df_ba["sentiment_last"] == "neu"]),
+                                len(df_ba[df_ba["sentiment_last"] == "pos"]))
+    print(f"ba: {ba_dic}")
+
+    ra_dic["sentiment_first"] = (len(df_ra[df_ra["sentiment_first"] == "neg"]),
+                                 len(df_ra[df_ra["sentiment_first"] == "neu"]),
+                                 len(df_ra[df_ra["sentiment_first"] == "pos"]))
+    ra_dic["sentiment_last"] = (len(df_ra[df_ra["sentiment_last"] == "neg"]),
+                                len(df_ra[df_ra["sentiment_last"] == "neu"]),
+                                len(df_ra[df_ra["sentiment_last"] == "pos"]))
+    print(f"ra: {ra_dic}")
+
+    ej_dic["sentiment_first"] = (len(df_ej[df_ej["sentiment_first"] == "neg"]),
+                                 len(df_ej[df_ej["sentiment_first"] == "neu"]),
+                                 len(df_ej[df_ej["sentiment_first"] == "pos"]))
+    ej_dic["sentiment_last"] = (len(df_ej[df_ej["sentiment_last"] == "neg"]),
+                                len(df_ej[df_ej["sentiment_last"] == "neu"]),
+                                len(df_ej[df_ej["sentiment_last"] == "pos"]))
+    print(f"ej: {ej_dic}")
+
+    x_axis = np.arange(7)
+
+    plt.bar([x_axis[0], x_axis[4]], [klm_dic["sentiment_first"][0], klm_dic["sentiment_last"][0]],
+            alpha=0.5, color="red")
+    plt.bar([x_axis[1], x_axis[5]], [klm_dic["sentiment_first"][1], klm_dic["sentiment_last"][1]],
+            alpha=0.5, color="orange")
+    plt.bar([x_axis[2], x_axis[6]], [klm_dic["sentiment_first"][2], klm_dic["sentiment_last"][2]],
+            alpha=0.5, color="green")
+    plt.suptitle("Tweets at the start and the end of the conversation for KLM")
+    plt.xlabel("Start                                                     End")
+    plt.xticks([x_axis[0], x_axis[1], x_axis[2], x_axis[4], x_axis[5], x_axis[6]],
+               ["neg", "neu", "pos", "neg", "neu", "pos"])
+    plt.ylabel("Amount of tweets")
+    plt.savefig("test1.png", bbox_inches="tight")
+    plt.clf()
+
+    plt.bar([x_axis[0], x_axis[4]], [ba_dic["sentiment_first"][0], ba_dic["sentiment_last"][0]],
+            alpha=0.5, color="red")
+    plt.bar([x_axis[1], x_axis[5]], [ba_dic["sentiment_first"][1], ba_dic["sentiment_last"][1]],
+            alpha=0.5, color="orange")
+    plt.bar([x_axis[2], x_axis[6]], [ba_dic["sentiment_first"][2], ba_dic["sentiment_last"][2]],
+            alpha=0.5, color="green")
+    plt.suptitle("Tweets at the start and the end of the conversation for BA")
+    plt.xlabel("Start                                                     End")
+    plt.xticks([x_axis[0], x_axis[1], x_axis[2], x_axis[4], x_axis[5], x_axis[6]],
+               ["neg", "neu", "pos", "neg", "neu", "pos"])
+    plt.ylabel("Amount of tweets")
+    plt.savefig("test2.png", bbox_inches="tight")
+    plt.clf()
+
+    plt.bar([x_axis[0], x_axis[4]], [ra_dic["sentiment_first"][0], ra_dic["sentiment_last"][0]],
+            alpha=0.5, color="red")
+    plt.bar([x_axis[1], x_axis[5]], [ra_dic["sentiment_first"][1], ra_dic["sentiment_last"][1]],
+            alpha=0.5, color="orange")
+    plt.bar([x_axis[2], x_axis[6]], [ra_dic["sentiment_first"][2], ra_dic["sentiment_last"][2]],
+            alpha=0.5, color="green")
+
+    plt.suptitle("Tweets at the start and the end of the conversation for RA")
+    plt.xlabel("Start                                                     End")
+    plt.xticks([x_axis[0], x_axis[1], x_axis[2], x_axis[4], x_axis[5], x_axis[6]],
+               ["neg", "neu", "pos", "neg", "neu", "pos"])
+    plt.ylabel("Amount of tweets")
+    plt.savefig("test3.png", bbox_inches="tight")
+    plt.clf()
+
+    plt.bar([x_axis[0], x_axis[4]], [ej_dic["sentiment_first"][0], ej_dic["sentiment_last"][0]],
+            alpha=0.5, color="red")
+    plt.bar([x_axis[1], x_axis[5]], [ej_dic["sentiment_first"][1], ej_dic["sentiment_last"][1]],
+            alpha=0.5, color="orange")
+    plt.bar([x_axis[2], x_axis[6]], [ej_dic["sentiment_first"][2], ej_dic["sentiment_last"][2]],
+            alpha=0.5, color="green")
+    plt.suptitle("Tweets at the start and the end of the conversation for EJ")
+    plt.xlabel("Start                                                     End")
+    plt.xticks([x_axis[0], x_axis[1], x_axis[2], x_axis[4], x_axis[5], x_axis[6]],
+               ["neg", "neu", "pos", "neg", "neu", "pos"])
+    plt.ylabel("Amount of tweets")
+    plt.savefig("test4.png", bbox_inches="tight")
+    plt.clf()
+
+#fun()  # avg conv len, amount of conv
+img_sentiment()
+connection.close()
+exit()
