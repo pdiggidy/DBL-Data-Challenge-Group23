@@ -8,7 +8,7 @@ import swifter
 
 engine = create_engine(os.environ["DB_STRING"])
 
-
+#test
 query = """SELECT All_tweets.id_str, All_tweets.text, company
     FROM Conversations_max_15_updated Conversations
     INNER JOIN All_tweets_labeled All_tweets on Conversations.tweet_id = All_tweets.id_str
