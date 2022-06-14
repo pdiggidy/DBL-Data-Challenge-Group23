@@ -470,7 +470,7 @@ def img_resp_time(response_klm, response_ba, response_ej, response_ra, response_
 #d, e, f, g, h, i, j, k, l, m, n = resp_time()
 #img_resp_time(d, e, f, g, h, i, j, k, l, m, n)
 
-
+a
 
 def fun():
     query = """
