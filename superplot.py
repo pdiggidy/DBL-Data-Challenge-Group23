@@ -120,7 +120,7 @@ def plot_superplot():
     y_sent = all_tweets_df["is_klm"].astype(int)
 
     sns.histplot(x=x_current_time, weights=y_recieved, label="recieved", bins=24, color="navy", ax=ax1)
-    sns.histplot(x=x_current_time, weights=y_sent, label="sent", bins=24, color="royalblue", ax=ax1)
+    sns.histplot(x=x_current_time, weights=y_sent, label="sent", bins=24, shrink=0.7, color="royalblue", ax=ax1)
 
     ax1.set_title("Amount of tweets sent and recieved per hour of the day", fontsize=21)
     ax1.set_xlabel("hour of the day", fontsize=11)
@@ -169,6 +169,6 @@ def plot_superplot():
     ax3.set_ylim(datetime(2000, 1, 1), datetime(2000, 1, 1, 0, 25))
     plt.show()
 
-plot_response_time()
-plot_sent_recieved()
+# plot_response_time()
+# plot_sent_recieved()
 plot_superplot()

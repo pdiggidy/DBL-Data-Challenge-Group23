@@ -112,7 +112,7 @@ def create_newest_raw_conversation(table_name):
 
     # create raw dataframe
     q = f"""SELECT conv_id, msg_nr, user_id, tweet_id, sentiment
-           FROM {table_name} LIMIT 10000
+           FROM {table_name} LIMIT 100
         """
     df_raw_conv = pd.read_sql_query(q, connection).set_index(["conv_id", "msg_nr"])
     df_raw_conv.insert(0, "inter_nr", -1)
