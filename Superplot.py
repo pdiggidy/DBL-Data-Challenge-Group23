@@ -10,10 +10,6 @@ from matplotlib.dates import DateFormatter
 import seaborn as sns
 from datetime import datetime
 
-company_names = ["KLM", "AirFrance", "BritishAirways", "AmericanAir", "Lufthansa",
-                 "EasyJet", "Ryanair", "SingaporeAir", "Qantas", "Ethihad", "VirginAtlantic"]
-company_id_list = [56377143, 106062176, 18332190, 22536055, 124476322, 38676903, 1542862735, 253340062, 218730857, 45621423, 20626359]
-
 connection = create_engine(os.environ["DB_STRING"]).connect()
 
 q = """SELECT company, sentiment, id_str, in_reply_to_status_id_str, user_id_str, timestamp_ms/1000 as cur_timestamp 
@@ -21,7 +17,8 @@ q = """SELECT company, sentiment, id_str, in_reply_to_status_id_str, user_id_str
        WHERE company=0 AND lang='en'
        LIMIT 400000"""
 all_tweets_df = pd.read_sql(q, connection)
-all_tweets_df["is_klm"] = all_tweets_df["user_id_str"] == 56377143
+looking_for_airline = 56377143
+all_tweets_df["is_klm"] = all_tweets_df["user_id_str"] == looking_for_airline
 
 connection.close()
 
@@ -275,7 +272,6 @@ def plot_superplot_heatmap_in_hist():
     range_pos_neg = max(pos_neg_df["total"]) - min(pos_neg_df["total"])
     range_new = 100
     pos_neg_ratio_df = (pos_neg_df["total"] - min(pos_neg_df["total"])) * (range_new / range_pos_neg)
-    pos_neg_ratio_df
 
     range_colormap = np.linspace(0, 0.85, 101)
     sent_color_values = np.array(pos_neg_ratio_df, dtype=int)
