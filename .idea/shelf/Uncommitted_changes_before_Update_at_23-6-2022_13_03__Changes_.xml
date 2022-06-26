@@ -1,0 +1,69 @@
+<changelist name="Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]" date="1655982224802" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 23-6-2022 13:03 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/easyjet_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/easyjet_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/easyjet_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/klm_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/klm_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/klm_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/airberlin_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/airberlin_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/airberlin_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/airfrance_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/airfrance_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/airfrance_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/lufthansa_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/lufthansa_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/lufthansa_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/ethihadairways_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/ethihadairways_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/ethihadairways_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/britishairways_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/britishairways_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/britishairways_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/armericanair_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/armericanair_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/armericanair_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/qantas_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/qantas_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/qantas_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/airberlinassist_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/airberlinassist_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/airberlinassist_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/virginatlantic_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/virginatlantic_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/virginatlantic_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/ryanair_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/ryanair_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/ryanair_tweets_df.pickle" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Clean_data/singaporeair_tweets_df.pickle" />
+    <option name="AFTER_PATH" value="Clean_data/singaporeair_tweets_df.pickle" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23-6-2022_13_03_[Changes]/singaporeair_tweets_df.pickle" />
+  </binary>
+</changelist>

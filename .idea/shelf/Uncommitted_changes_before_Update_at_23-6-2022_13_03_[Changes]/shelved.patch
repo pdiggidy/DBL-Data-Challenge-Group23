@@ -1,0 +1,55 @@
+Index: Conversations.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pandas as pd\r\nfrom typing import List\r\nfrom Lists import *\r\n\r\n\r\ndef conversations_list_builder(twt_list, conversations=[]) -> List[list]:\r\n    \"\"\"\"Creates conversation lists from tweet dictionary input.\"\"\"\r\n    for i in range((len(twt_list)-1),-1,-1):  # loop through the tweets reversely\r\n        if twt_list[i]['in_reply_to_status_id_str'] is not None \\\r\n           and int(twt_list[i]['in_reply_to_user_id_str']) in airlines_list \\\r\n           or int(twt_list[i]['user_id_str']) in airlines_list \\\r\n           and twt_list[i]['in_reply_to_status_id_str'] is not None:\r\n                # tweet is in reply to another tweet (1)\r\n                # AND\r\n                # other tweet is from an airline (1)\r\n                # OR\r\n                # tweet is from an airline (2)\r\n                # AND\r\n                # it is replying to another tweet (2)\r\n\r\n            convo_nr = 0                # iterator for the while loop\r\n            in_conversations = False   # false as long as tweet does not already exist in our conversations\r\n\r\n            for convo in conversations:\r\n                if twt_list[i]['id_str'] == convo[-1]:\r\n                    convo.append(twt_list[i]['in_reply_to_status_id_str'])\r\n                    in_conversations = True  # tweet is found, so true\r\n\r\n            if not in_conversations:   # if the tweet has not been found somewhere in our conversations\r\n                conversations.append([twt_list[i]['id_str'], twt_list[i]['in_reply_to_status_id_str']])\r\n                                       # add the tweet and the tweet it is replying to, to our conversations\r\n\r\n    return conversations\r\n\r\n\r\ndef conversations_cleaner(conversations_to_clean: List[list]) -> List[list]:\r\n    \"\"\"\"Removes non conversations (less than 3 tweets) from collected interactions.\"\"\"\r\n    cleaned_conversations: List[list] = []            # will hold the \"cleaned\" conversations\r\n\r\n    for convo in conversations_to_clean:\r\n        if len(convo) >= 3:                           # our definition of a conversation (at least 3 tweets)\r\n            cleaned_conversations.append(convo)       # add the conversation to our new conversations list\r\n\r\n    return cleaned_conversations\r\n\r\n\r\ndef conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:\r\n    \"\"\"\"Creates conversation dataframes from tweet dictionary.\"\"\"\r\n    conversations_df = pd.DataFrame(conversations)    # makes a DataFrame out of our list of lists (conversations)\r\n    conversations_df_indexed = pd.DataFrame(conversations, index=conversations_df.iloc[:, 0])\r\n                                                      # makes a new DataFrame where the index is the last reply\r\n    del conversations_df_indexed[0]                   # remove the now redundant and duplicant column\r\n\r\n    return conversations_df_indexed\r\n\r\ndef conversation_builder(df: pd.DataFrame):\r\n    all_tweetID: set = set(df.index)    # alle tweets (exl dubbel)\r\n    tweetID_replytotweetID: dict = df[\"in_reply_to_status_id_str\"].dropna().to_dict()\r\n    tweetID_userID: pd.Series = df[\"user_id_str\"].to_dict()\r\n\r\n    replies_tweetID: set = set(tweetID_replytotweetID.keys())       # tweets met IRT (exl dubbel)\r\n    parent_tweetID: set = set(tweetID_replytotweetID.values())      # tweets that have a reply\r\n    children_tweetID = replies_tweetID.difference(parent_tweetID)   # tweets that ARE replies\r\n\r\n    all_conversations = []\r\n\r\n    # start a conversation from each Conversation Starter\r\n    for id_str in children_tweetID:\r\n        conversation = []\r\n\r\n        # compile a whole conversation from bottom to top\r\n        while True:\r\n            conversation.append(id_str)                             # CBA\r\n            id_str = tweetID_replytotweetID.get(id_str, None)       # id=B, id=A, id=None\r\n            if not id_str:  # if not None                           # 001\r\n                break\r\n\r\n        # reverse the conversation so the first tweet will be in the first row.\r\n        conversation.reverse()\r\n\r\n        # only keep conversations with at least 2 people\r\n        people = set()\r\n        less_than_1_person = True\r\n        for i in range(len(conversation)):\r\n            tweet_id = conversation[i]\r\n            user_id_str = tweetID_userID.get(tweet_id)\r\n            if user_id_str is None:\r\n                break\r\n            people.add(user_id_str)\r\n            if len(people) > 1:\r\n                less_than_1_person = False\r\n                break\r\n        if less_than_1_person:\r\n            continue\r\n\r\n        # only append conversations that are between 3 and 50 tweets long, and for which all tweet data is available\r\n        if 2 < len(conversation) < 50 and conversation[0] in all_tweetID:\r\n            all_conversations.append(conversation)\r\n\r\n    conversations_df = pd.DataFrame(all_conversations, columns=range(1, 1+len(max(all_conversations, key=len))))\r\n    return conversations_df\r\n\r\n\r\n    connection =\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Conversations.py b/Conversations.py
+--- a/Conversations.py	(revision 8123a369e6dcf4371644efbf8b4a6e48bb9c7e6a)
++++ b/Conversations.py	(date 1654628161279)
+@@ -45,7 +45,7 @@
+ 
+ 
+ def conversations_list_to_df(conversations: List[list]) -> pd.DataFrame:
+-    """"Creates conversation dataframes from tweet dictionary."""
++    """"Creates conversation dataframes from tweet dictionary."""sd1    23wssdfc v93
+     conversations_df = pd.DataFrame(conversations)    # makes a DataFrame out of our list of lists (conversations)
+     conversations_df_indexed = pd.DataFrame(conversations, index=conversations_df.iloc[:, 0])
+                                                       # makes a new DataFrame where the index is the last reply
+Index: .idea/DBL-Data-Challenge-Group23.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\" />\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n  <component name=\"PackageRequirementsSettings\">\r\n    <option name=\"requirementsPath\" value=\"\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/DBL-Data-Challenge-Group23.iml b/.idea/DBL-Data-Challenge-Group23.iml
+--- a/.idea/DBL-Data-Challenge-Group23.iml	(revision 8123a369e6dcf4371644efbf8b4a6e48bb9c7e6a)
++++ b/.idea/DBL-Data-Challenge-Group23.iml	(date 1653399965206)
+@@ -2,7 +2,7 @@
+ <module type="PYTHON_MODULE" version="4">
+   <component name="NewModuleRootManager">
+     <content url="file://$MODULE_DIR$" />
+-    <orderEntry type="inheritedJdk" />
++    <orderEntry type="jdk" jdkName="Python 3.8 (Python 3.8)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+   <component name="PackageRequirementsSettings">
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.8\" project-jdk-type=\"Python SDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 8123a369e6dcf4371644efbf8b4a6e48bb9c7e6a)
++++ b/.idea/misc.xml	(date 1653399965237)
+@@ -1,4 +1,4 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (Python 3.8)" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
