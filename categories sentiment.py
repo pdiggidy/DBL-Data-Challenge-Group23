@@ -16,14 +16,14 @@ cats_regx_lst = ['(delay)', '(cancel)', '(bag)', '(service)', '(luggage)', '(foo
 cats_regx1: str = "|".join(cats_regx_lst)
 cats_regx2: str = "(could|can |please|give|would).+(information)|no (information)"
 
-cats_dict = {"bag": "luggage issues", "luggage": "luggage issues",
-             "delay": "delayed flights", "late": "delayed flights",
-             "cancel": "cancelled flights",
-             "service": "customer service complaints",
-             "food": "food","lunch": "food", "meal": "food", "breakfast": "food", "dinner": "food",
-             "information": "informatie request", "boarding pass": "informatie request",
-             "compensation":"compensation", "refund": "compensation",
-             "check": "check-in problems"}
+cats_dict = {"bag": "Luggage issues", "luggage": "Luggage issues",
+             "delay": "Delayed flights", "late": "Delayed flights",
+             "cancel": "Cancelled flights",
+             "service": "Customer service complaints",
+             "food": "Food", "lunch": "Food", "meal": "Food", "breakfast": "Food", "dinner": "Food",
+             "information": "Information request", "boarding pass": "Information request",
+             "compensation": "Compensations/refunds", "refund": "Compensations/refunds",
+             "check": "Check-in problems"}
 
 query_text = """SELECT AT.airline, AT.timestamp_ms, AT.id_str, AT.text, C.sentiment_change
                 FROM Conversations C
@@ -56,10 +56,10 @@ def map_dict(text: str) -> set:
         all_matches.update(matches_mapped)
 
     ## additional conditions:
-    if "delayed flights" in all_matches and "luggage issues" in all_matches:
-        all_matches.remove("delayed flights")
-    if "check-in problems" in all_matches and "luggage issues" in all_matches:
-        all_matches.remove("luggage issues")
+    if "Delayed flights" in all_matches and "Luggage issues" in all_matches:
+        all_matches.remove("Delayed flights")
+    if "Check-in problems" in all_matches and "Luggage issues" in all_matches:
+        all_matches.remove("Luggage issues")
 
     return all_matches
 
@@ -101,10 +101,10 @@ def create_categories_df(airline_name, text_df):
     """
     air = text_df[text_df["airline"] == airline_name]
     catogs = set(cats_dict.values())
-    catogs.remove("informatie request")
-    catogs.remove("food")
-    catogs.remove("customer service complaints")  # reduce to 4
-    catogs.remove("delayed flights")  # reduce to 4
+    catogs.remove("Information request")
+    catogs.remove("Food")
+    catogs.remove("Customer service complaints")  # reduce to 4
+    catogs.remove("Delayed flights")  # reduce to 4
 
     cats_df = [
         air.loc[air[cat] == True, [cat, "sentiment_change"]].rename(columns={cat: "category"}).replace({True: cat})
@@ -151,17 +151,18 @@ def plot_categories(all_cat):
                 break
             subject = cats_iter[count]
             subject_df = order_df_for_category(subject, all_cat).reset_index(drop=True)
+            subject_df["value"] = subject_df["value"] * 100
             sns.histplot(subject_df,
                          y="airline", weights="value", hue="sentiment_change", discrete=True,
                          multiple="stack", shrink=0.7, palette=[(0.8, 0.0, 0.1), (1, 0.6, .0), (0.2, .7, 0.2)], ax=ax)
             ax.set_title(f"{subject}", fontweight=500, fontsize=26)
-            ax.set_xlabel("percentage", fontsize=18)
+            ax.set_xlabel("Percentage", fontsize=18)
             ax.set_ylabel("")
             ax.legend("")
             count += 1
             ax.tick_params(labelsize=18)
 
-    ax_comb[0, 1].legend(["pos", "neu", "neg"], bbox_to_anchor=(1, 1), prop={"size": 18})
+    ax_comb[0, 1].legend(["Increase", "No change", "Decrease"], bbox_to_anchor=(1, 1), prop={"size": 18})
     # ax.yticks(fontsize=20)
     fig.tight_layout()
     plt.close(fig)
