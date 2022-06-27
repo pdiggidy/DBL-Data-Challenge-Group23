@@ -1,11 +1,15 @@
-from Boxplot import box_plots
-
+#from Boxplot import box_plots
+from heatmap import *
 import datetime as dt
 
+running = True
 def runplots(month:int):
+    if month == "end":
+        global running
+        running = False
+        return None
+    heatmap(int(month))
 
-    print(month)
-    pass
 
-while True:
+while running:
     runplots(input("Which Month Would You Like? "))
