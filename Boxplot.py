@@ -7,7 +7,67 @@ import seaborn as sns
 #names = ["KLM", "AirFrance", "BritishAirways", "AmericanAir", "Lufthansa", "AirBerlin",
 #                 "EasyJet", "Ryanair", "SingaporeAir", "Qantas", "Etihad", "VirginAtlantic"]
 
-def box_plots(df):
+def box_plots(month):
+
+    query = """SELECT All_tweets.sentiment as "end"
+        FROM Conversations_max_15_updated Conversations
+        INNER JOIN All_tweets on Conversations.tweet_id = All_tweets.id_str
+        WHERE (Conversations.conv_id, Conversations.msg_nr) in
+            (SELECT Conversations.conv_id, max(Conversations.msg_nr)
+            FROM Conversations_max_15_updated Conversations group by Conversations.conv_id)
+        AND All_tweets.lang = "en"
+    """
+
+    df_ends = pd.read_sql(query, engine)
+
+    query_start = query = """SELECT All_tweets.sentiment as "start", company
+        FROM Conversations_max_15_updated Conversations
+        INNER JOIN All_tweets on Conversations.tweet_id = All_tweets.id_str
+        WHERE (Conversations.conv_id, Conversations.msg_nr) in
+            (SELECT Conversations.conv_id, min(Conversations.msg_nr)
+            FROM Conversations_max_15_updated Conversations group by Conversations.conv_id)
+        AND All_tweets.lang = "en"
+    """
+    df_starts = pd.read_sql(query_start, engine)
+
+    df_all = pd.concat([df_starts, df_ends], axis=1)
+
+    print(len(df_ends))
+    print(len(df_starts))
+    print(len(df_all))
+
+    df_all.dropna(inplace=True)
+
+    def change(row):
+        start = row["start"]
+        end = row["end"]
+
+        if start == "pos":
+            if end == "neg":
+                return -1
+            if end == "neu":
+                return 0
+            else:
+                return 1
+
+        elif start == "neu":
+            if end == "neu":
+                return 0
+            elif end == "pos":
+                return 1
+            else:
+                return -1
+        elif start == "neg":
+            if end == "neg":
+                return 0
+            else:
+                return 1
+
+    df_all["change"] = df_all.swifter.apply(change, axis=1)
+
+    df_all.to_pickle("changes")
+
+    print("done")
     df = df.groupby("company")
 
     changes_dict = {}
@@ -15,8 +75,8 @@ def box_plots(df):
     neu = []
     neg = []
     for name, group in df:
-    vals = group["change"].value_counts(normalize=True)
-    ls = []
+        vals = group["change"].value_counts(normalize=True)
+        ls = []
     for row in vals:
         ls.append(row)
     changes_dict[name] = ls
