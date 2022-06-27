@@ -208,7 +208,7 @@ def plot_superplot_heatmap_in_plot():
     ax10.set_position([hist_pos.x0, hist_pos.y0, color_pos.width, color_pos.height])
 
     ### set fontsizes
-    ax1.set_title("Response time compared to ratio of sent and received tweets of KLM", fontsize=25)
+    ax1.set_title("Response time compared to ratio of sent and received tweets of KLM", fontsize=25, y=1.02)
 
     ax1.xaxis.label.set_fontsize(16)
     ax1.yaxis.label.set_fontsize(16)
@@ -296,7 +296,7 @@ def plot_superplot_heatmap_in_hist():
         bar2.set_facecolor((.9, 0.4, .25))
 
     ### set fontsizes
-    ax1.set_title("Response time compared to ratio of sent and received tweets of KLM", fontsize=25)
+    ax1.set_title("Response time compared to ratio of sent and received tweets of KLM", fontsize=25, y=1.02)
 
     ax1.xaxis.label.set_fontsize(16)
     ax1.yaxis.label.set_fontsize(16)
