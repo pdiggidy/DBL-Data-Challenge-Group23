@@ -82,5 +82,5 @@ df = df.reset_index()
 df = df.set_index(["conv_id", "inter_nr", "msg_nr"]).sort_index()
 print("uploading")
 
-df.to_sql("Conversations_2", engine, schema="Tweets_Data", if_exists="replace")
+# df.to_sql("Conversations_2", engine, schema="Tweets_Data", if_exists="fail")
 

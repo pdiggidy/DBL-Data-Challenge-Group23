@@ -121,9 +121,9 @@ def create_categories_df(airline_name, text_df):
 
 def order_df_for_category(categ_name, df_all):
     df = df_all[df_all["category"] == categ_name].sort_values(["sentiment_change", "value"], ascending=False).copy()
-    df1 = df[df["sentiment_change"]=="pos"]
-    df2 = df[df["sentiment_change"]=="neu"]
-    df3 = df[df["sentiment_change"]=="neg"]
+    df1 = df[df["sentiment_change"] == "pos"]
+    df2 = df[df["sentiment_change"] == "neu"]
+    df3 = df[df["sentiment_change"] == "neg"]
     df_merge1 = df1.merge(df2, on="airline", how="left")
     df_merge2 = df_merge1.merge(df3, on="airline", how="left")
 

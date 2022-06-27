@@ -58,17 +58,17 @@ klm_df["dif_time_in_date_moving"] = klm_df["dif_time_moving"].apply(lambda times
                                                     (datetime.fromtimestamp(timestamp) - datetime.fromtimestamp(0)))
 
 # create data for heatmap
-pos_neg_df = pd.DataFrame()
-tweets_not_klm_df = all_tweets_df[all_tweets_df["is_klm"] == False]
-klm_pos = tweets_not_klm_df[tweets_not_klm_df["sentiment"] == "pos"][["cur_hour", "sentiment"]]
-klm_neu = tweets_not_klm_df[tweets_not_klm_df["sentiment"] == "neu"][["cur_hour", "sentiment"]]
-klm_neg = tweets_not_klm_df[tweets_not_klm_df["sentiment"] == "neg"][["cur_hour", "sentiment"]]
+connection = create_engine(os.environ["DB_STRING"]).connect()
+q_heat = """SELECT *
+       FROM HeatmapData
+       """
+heat_data_df = pd.read_sql(q_heat, connection)
+connection.close()
 
-total = tweets_not_klm_df[["cur_hour", "sentiment"]].groupby("cur_hour").count()
-pos_neg_df["klm_pos"] = klm_pos.groupby("cur_hour").count() / total
-pos_neg_df["klm_neu"] = klm_neu.groupby("cur_hour").count() / total
-pos_neg_df["klm_neg"] = klm_neg.groupby("cur_hour").count() / total
-pos_neg_df["total"] = 1 * pos_neg_df["klm_pos"] + 0 * pos_neg_df["klm_neu"] + -1 * pos_neg_df["klm_neg"]
+heat_data_df["hour"] = heat_data_df["timestamp"].apply(lambda timestamp: datetime.fromtimestamp(timestamp/1000).hour)
+
+pos_neg_df = heat_data_df[["hour", "sentiment_change"]].groupby("hour").mean()
+pos_neg_df.columns = ["total"]
 
 
 def plot_response_time():
@@ -100,12 +100,12 @@ def plot_sent_recieved():
     y_recievedd = (all_tweets_df["is_klm"] == False).astype(int)
     y_sentt = all_tweets_df["is_klm"].astype(int)
 
-    histogramm = sns.histplot(x=x_current_timee, weights=y_recievedd, label="recieved", bins=24, color="navy", ax=axx2)
+    histogramm = sns.histplot(x=x_current_timee, weights=y_recievedd, label="Received", bins=24, color="navy", ax=axx2)
     sns.histplot(x=x_current_timee, weights=y_sentt, label="sent", bins=24, color="royalblue", ax=axx2)
 
-    axx2.set_title("Amount of tweets sent and recieved per hour of the day", fontsize=21)
+    axx2.set_title("Amount of tweets sent and received per hour of the day", fontsize=21)
     axx2.set_xlabel("hour of the day", fontsize=11)
-    axx2.set_ylabel("amount of tweets sent/recieved", fontsize=11)
+    axx2.set_ylabel("amount of tweets sent/received", fontsize=11)
     axx2.set_xlim(datetime(2000, 1, 1), datetime(2000, 1, 1, 23, 59, 59, 59))
     axx2.legend()
 
@@ -130,10 +130,10 @@ def plot_sent_recieved():
     plt.show()
 
 
-def plot_heatmap():
+def plot_heatmap(pos_neg_df):
     cmap = [(i / 10, 0, 0) for i in range(5, 10)] + [(1, i / 10, i / 10) for i in range(9)]
     figg2, axx2 = plt.subplots(figsize=(12, 1))
-    sns.heatmap(pos_neg_df[["total"]].transpose(), ax=axx2, cmap=cmap)
+    sns.heatmap(pos_neg_df.transpose(), ax=axx2, cmap=cmap, vmin=0.12)
     plt.show()
 
 
@@ -146,11 +146,11 @@ def plot_superplot_heatmap_in_plot():
     y_recieved = (all_tweets_df["is_klm"] == False).astype(int)
     y_sent = all_tweets_df["is_klm"].astype(int)
 
-    sns.histplot(x=x_current_time, weights=y_recieved, label="recieved", bins=24, color="navy", ax=ax1)
-    sns.histplot(x=x_current_time, weights=y_sent, label="sent", bins=24, color="cornflowerblue", shrink=0.7, ax=ax1)
+    sns.histplot(x=x_current_time, weights=y_recieved, label="Recieved", bins=24, color="navy", ax=ax1)
+    sns.histplot(x=x_current_time, weights=y_sent, label="Sent", bins=24, color="cornflowerblue", shrink=0.7, ax=ax1)
 
-    ax1.set_xlabel("time (hour of the day)")
-    ax1.set_ylabel("tweets sent/recieved (freq)")
+    ax1.set_xlabel("Time (hour of the day)")
+    ax1.set_ylabel("Amount of tweets")
     ax1.set_xlim(datetime(2000, 1, 1), datetime(2000, 1, 1, 23, 59, 59, 59))
 
     ax1.xaxis.set_major_formatter(DateFormatter("%H:%M"))
@@ -180,19 +180,26 @@ def plot_superplot_heatmap_in_plot():
     x_prev_time = klm_df["prev_time_in_date"]
     y_response_time = klm_df["dif_time_in_date_moving"]
 
-    ax2.plot(x_prev_time, y_response_time, color="orangered", linewidth=3, label="response time")
+    ax2.plot(x_prev_time, y_response_time, color="orangered", linewidth=3, label="Response time")
 
-    ax2.set_xlabel("time (hour of the day)")
-    ax2.set_ylabel("response time (hours)")
+    ax2.set_xlabel("Time (hour of the day)")
+    ax2.set_ylabel("Response time (hours)")
     ax2.set_ylim(datetime(2000, 1, 1), datetime(2000, 1, 1, 0, 25))
 
     ax2.yaxis.set_major_formatter(DateFormatter('%H:%M'))
 
     ###########################################################################################################
     ### heatmap
+    pos_neg_df_copy = pos_neg_df.sort_values("total").copy()
+    pos_neg_df_copy.iloc[0, 0] = pos_neg_df_copy.iloc[1, 0]
+    pos_neg_df_copy.sort_index(inplace=True)
+
+    range_colormap = np.linspace(0, 0.55, 101)
+    map_red = [(0.7 + (3 * i / 8.5), i, i) for i in range_colormap]
+    map_red.reverse()
     cmap = [(i / 10, 0, 0) for i in range(5, 10)] + [(1, i / 10, i / 10) for i in range(9)]
 
-    sns.heatmap(pos_neg_df[["total"]].transpose(), ax=ax10, cbar=False, cmap=cmap, xticklabels=False, robust=True)
+    sns.heatmap(pos_neg_df_copy[["total"]].transpose(), ax=ax10, cbar=False, cmap=cmap, xticklabels=False, robust=True)
     ax10.set_xlabel("")
     ax10.set_ylabel("")
 
@@ -201,7 +208,7 @@ def plot_superplot_heatmap_in_plot():
     ax10.set_position([hist_pos.x0, hist_pos.y0, color_pos.width, color_pos.height])
 
     ### set fontsizes
-    ax1.set_title("Response time compared to ratio sent and recieved tweets", fontsize=25)
+    ax1.set_title("Response time compared to ratio of sent and received tweets of KLM", fontsize=25)
 
     ax1.xaxis.label.set_fontsize(16)
     ax1.yaxis.label.set_fontsize(16)
@@ -225,11 +232,11 @@ def plot_superplot_heatmap_in_hist():
     y_recieved = (all_tweets_df["is_klm"] == False).astype(int)
     y_sent = all_tweets_df["is_klm"].astype(int)
 
-    sns.histplot(x=x_current_time, weights=y_recieved, label="recieved", bins=24, color="navy", linewidth=1.2, ax=ax1)
-    sns.histplot(x=x_current_time, weights=y_sent, label="sent", bins=24, color="cornflowerblue", shrink=0.7, ax=ax1)
+    sns.histplot(x=x_current_time, weights=y_recieved, label="Received", bins=24, color="navy", linewidth=1.2, ax=ax1)
+    sns.histplot(x=x_current_time, weights=y_sent, label="Sent", bins=24, color="cornflowerblue", shrink=0.7, ax=ax1)
 
-    ax1.set_xlabel("time (hour of the day)")
-    ax1.set_ylabel("tweets sent/recieved (freq)")
+    ax1.set_xlabel("Time (hour of the day)")
+    ax1.set_ylabel("Amount of tweets")
     ax1.set_xlim(datetime(2000, 1, 1), datetime(2000, 1, 1, 23, 59, 59, 59))
 
     ax1.xaxis.set_major_formatter(DateFormatter("%H:%M"))
@@ -259,7 +266,7 @@ def plot_superplot_heatmap_in_hist():
     x_prev_time = klm_df["prev_time_in_date"]
     y_response_time = klm_df["dif_time_in_date_moving"]
 
-    ax2.plot(x_prev_time, y_response_time, color="teal", linewidth=3, label="response time")
+    ax2.plot(x_prev_time, y_response_time, color="teal", linewidth=3, label="Response time")
 
     ax2.set_xlabel("time (hour of the day)")
     ax2.set_ylabel("response time (hours)")
@@ -269,13 +276,17 @@ def plot_superplot_heatmap_in_hist():
 
     ###########################################################################################################
     #### set bar colors
-    range_pos_neg = max(pos_neg_df["total"]) - min(pos_neg_df["total"])
+    pos_neg_df_copy = pos_neg_df.sort_values("total").copy()
+    pos_neg_df_copy.iloc[0, 0] = pos_neg_df_copy.iloc[1, 0]
+    pos_neg_df_copy.sort_index(inplace=True)
+    range_pos_neg = max(pos_neg_df_copy["total"]) - min(pos_neg_df_copy["total"])
     range_new = 100
-    pos_neg_ratio_df = (pos_neg_df["total"] - min(pos_neg_df["total"])) * (range_new / range_pos_neg)
+    pos_neg_ratio_df = (pos_neg_df_copy["total"] - min(pos_neg_df_copy["total"])) * (range_new / range_pos_neg)
 
-    range_colormap = np.linspace(0, 0.85, 101)
+    range_colormap = np.linspace(0, 0.55, 101)
     sent_color_values = np.array(pos_neg_ratio_df, dtype=int)
     map_red = [(0.7 + (3 * i / 8.5), i, i) for i in range_colormap]
+    map_red.reverse()
 
     children = ax1.get_children()
     for bar_i in range(24):
@@ -285,7 +296,7 @@ def plot_superplot_heatmap_in_hist():
         bar2.set_facecolor((.9, 0.4, .25))
 
     ### set fontsizes
-    ax1.set_title("Response time compared to ratio sent and recieved tweets", fontsize=25)
+    ax1.set_title("Response time compared to ratio of sent and received tweets of KLM", fontsize=25)
 
     ax1.xaxis.label.set_fontsize(16)
     ax1.yaxis.label.set_fontsize(16)
@@ -301,6 +312,6 @@ def plot_superplot_heatmap_in_hist():
 
 plot_response_time()
 plot_sent_recieved()
-plot_heatmap()
+plot_heatmap(pos_neg_df)
 plot_superplot_heatmap_in_plot()
 plot_superplot_heatmap_in_hist()
