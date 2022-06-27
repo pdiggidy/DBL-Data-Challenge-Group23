@@ -3,6 +3,8 @@ from heatmap import *
 import datetime as dt
 
 running = True
+
+
 def runplots(month:int):
     if month == "end":
         global running

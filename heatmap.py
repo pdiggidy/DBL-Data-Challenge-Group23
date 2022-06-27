@@ -58,5 +58,6 @@ def heatmap(month):
                     xticklabels=month_list, annot=True, cmap=color)
 
     plt.title("Average sentiment change per day (KLM)", {'fontsize': 16, 'fontweight': "bold"})
-
+    plt.show()
     plt.savefig(f"heatmap_{month}.png", bbox_inches='tight')
+
