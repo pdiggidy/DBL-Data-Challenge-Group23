@@ -192,3 +192,5 @@ def plot_categories_sentiment(month_number):
     df_with_categories(text_month_df)
     month_cat = pd.concat([create_categories_df(name, text_month_df) for name in air_lst])
     plot_categories(month_cat)
+
+#plot_categories_sentiment(2)
