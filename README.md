@@ -12,7 +12,11 @@ STILL UPLOADING WILL ADD WHEN ITS DONE
 
 and instructions on installing MySQL locally can be found here:
 https://www.mysqltutorial.org/install-mysql/
+https://www.mysqltutorial.org/mysql-create-database/
+https://www.mysqltutorial.org/how-to-load-sample-database-into-mysql-database-server.aspx
 
 If a local database is used then lines where the function "create_engine" is called must be edited to point to the local server.
+
+The sentiment analysis used for this can be found on [Hugging Face](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest)
 
 
