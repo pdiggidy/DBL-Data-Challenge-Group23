@@ -84,7 +84,6 @@ def box_plots(month):
     insuf = []
     for name, group in df:
         vals = group["change"].value_counts(normalize=True)
-        print(vals)
         ls = []
         for row in vals:
             ls.append(row)
@@ -133,9 +132,11 @@ def box_plots(month):
     ax3[0].set_title("Increase", size=20)
     ax3[1].set_title("Decrease", size=20)
     ax3[0].set_ylabel("Percentage", size=18)
-    fig3.suptitle("Distribution of Sentiment Change", size=24)
-    # ax3[0].text(s="Virgin Atlantic", x=1, y=min(box["pos_with"] + 1), size=12, ha="center")
+    fig3.suptitle("Distribution of Sentiment Change (fig  )", size=24, weight="bold")
+    # ax3[0].text(s="Virgin Atlantic", x=1, y=min(box["p os_with"] + 1), size=12, ha="center")
     # ax3[1].text(s="Virgin Atlantic", x=1, y=max(box["neg_with"] - 2), size=12, ha="center")
     plt.tight_layout()
+    plt.savefig("Boxplots.png")
     plt.show()
 
+box_plots("all")

@@ -1,6 +1,7 @@
 from Boxplot import *
 from heatmap import *
 from Categories_sentiment import *
+from BarCharts import *
 import datetime as dt
 
 running = True
@@ -14,7 +15,8 @@ def runplots(month:int):
     #month = int(month)
     heatmap(month)
     box_plots(month)
-    plot_categories_sentiment(month)
+    #plot_categories_sentiment(month)
+    BarChart(month)
 
 
 while running:

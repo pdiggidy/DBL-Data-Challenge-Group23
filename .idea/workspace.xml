@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="995e8452-2cc5-4060-8c01-af6560ade23c" name="Changes" comment="Label sizes">
+    <list default="true" id="995e8452-2cc5-4060-8c01-af6560ade23c" name="Changes" comment="Fixed Box Plots">
+      <change afterPath="$PROJECT_DIR$/BarCharts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Boxplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Boxplot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ratios.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ratios.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/changes" beforeDir="false" afterPath="$PROJECT_DIR$/changes" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heatmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/heatmap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +57,53 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.Boxplot">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="BarCharts (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DBL GitHub" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BarCharts.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="BarCharts" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DBL GitHub" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DB_STRING" value="mysql+pymysql://root:BwkwTfZUG7kXDkcLB7mb@116.202.135.30:25506/Tweets_Data" />
+        <env name="DISPLAY" value="TRUE" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\20210777\PycharmProjects\DBL_Data_Challenge\BarCharts.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Boxplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DBL GitHub" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -127,29 +173,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Superplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="DBL_Data_Challenge" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DB_STRING" value="mysql+pymysql://root:BwkwTfZUG7kXDkcLB7mb@116.202.135.30:25506/Tweets_Data?charset=utf8mb4" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\y135\anaconda3\envs\Python 3.8\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Superplot.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="heatmap" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DBL_Data_Challenge" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -165,29 +188,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/heatmap.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="hypothest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="DBL_Data_Challenge" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DB_STRING" value="mysql+pymysql://root:BwkwTfZUG7kXDkcLB7mb@116.202.135.30:25506/Tweets_Data?charset=utf8mb4" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\y135\anaconda3\envs\Python 3.8\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hypothest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -222,19 +222,19 @@
     <list>
       <item itemvalue="Python.Plots" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.BarCharts" />
+      <item itemvalue="Python.BarCharts (1)" />
       <item itemvalue="Python.Ratios" />
-      <item itemvalue="Python.Superplot" />
       <item itemvalue="Python.heatmap" />
-      <item itemvalue="Python.hypothest" />
       <item itemvalue="Python.Boxplot" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.Boxplot" />
+        <item itemvalue="Python.BarCharts (1)" />
+        <item itemvalue="Python.BarCharts" />
         <item itemvalue="Python.Ratios" />
         <item itemvalue="Python.heatmap" />
-        <item itemvalue="Python.hypothest" />
-        <item itemvalue="Python.Superplot" />
       </list>
     </recent_temporary>
   </component>
@@ -247,7 +247,7 @@
       <option name="presentableId" value="Default" />
       <updated>1653399822297</updated>
       <workItem from="1656406659711" duration="3418000" />
-      <workItem from="1656410117502" duration="1359000" />
+      <workItem from="1656410117502" duration="5288000" />
     </task>
     <task id="LOCAL-00001" summary="Added Jeroen's files.">
       <created>1656010045059</created>
@@ -284,7 +284,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656408666007</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fixed Box Plots">
+      <created>1656411676273</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1656411676273</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,7 +315,8 @@
     <MESSAGE value="Updated files" />
     <MESSAGE value="Boxplot" />
     <MESSAGE value="Label sizes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Label sizes" />
+    <MESSAGE value="Fixed Box Plots" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Box Plots" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -325,7 +333,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Boxplot.py</url>
-          <line>99</line>
+          <line>98</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -337,7 +345,8 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$main.coverage" NAME="main Coverage Results" MODIFIED="1656409655055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Bar_Charts.coverage" NAME="Bar Charts Coverage Results" MODIFIED="1656414135151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$main.coverage" NAME="main Coverage Results" MODIFIED="1656414268809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Ratios.coverage" NAME="Ratios Coverage Results" MODIFIED="1656410387373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Sort_Data_py$SQL_test.coverage" NAME="SQL_test Coverage Results" MODIFIED="1652968895170" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Ratios__1_.coverage" NAME="Ratios (1) Coverage Results" MODIFIED="1656332761564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -349,6 +358,7 @@
     <SUITE FILE_PATH="coverage/Sort_Data_py$DescriptiveStats_SA.coverage" NAME="DescriptiveStats_SA Coverage Results" MODIFIED="1654609863367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Sort_Data_py$Test.coverage" NAME="Test Coverage Results" MODIFIED="1651147916944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/DBL_Data_Challenge$temp.coverage" NAME="temp Coverage Results" MODIFIED="1655900899687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Boxplot.coverage" NAME="Boxplot Coverage Results" MODIFIED="1656411266419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Boxplot.coverage" NAME="Boxplot Coverage Results" MODIFIED="1656415090929" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$BarCharts__1_.coverage" NAME="BarCharts (1) Coverage Results" MODIFIED="1656414648458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
