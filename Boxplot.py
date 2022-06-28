@@ -107,19 +107,17 @@ def box_plots(month):
                    medianprops=dict(color=(0.2, 0.4, 0.9), linewidth=2), widths=(0.5, 0.5))
     ax3[1].boxplot(box[["neg_with", "neg_without"]], patch_artist=True, boxprops=dict(facecolor="orange"),
                    medianprops=dict(color=(0.2, 0.4, 0.9), linewidth=2), widths=(0.5, 0.5))
-    ax3[0].set_xticklabels(["With\nNames", "Without\nNames"], size=20)
-    ax3[1].set_xticklabels(["With\nNames", "Without\nNames"], size=20)
+    ax3[0].set_xticklabels(["With\nNames", "Without\nNames"], size=16)
+    ax3[1].set_xticklabels(["With\nNames", "Without\nNames"], size=16)
     ax3[0].tick_params(labelsize=18)
     ax3[1].tick_params(labelsize=18)
     ax3[0].set_title("Increase", size=20)
     ax3[1].set_title("Decrease", size=20)
-    ax3[0].set_ylabel("Percentage", size=20)
+    ax3[0].set_ylabel("Percentage", size=18)
     fig3.suptitle("Distribution of Sentiment Change", size=24)
-    ax3[0].text(s="Virgin Atlantic", x=1, y=min(box["pos_with"] + 1), size=12, ha="center")
-    ax3[1].text(s="Virgin Atlantic", x=1, y=max(box["neg_with"] - 2), size=12, ha="center")
+    #ax3[0].text(s="Virgin Atlantic", x=1, y=min(box["pos_with"] + 1), size=12, ha="center")
+    #ax3[1].text(s="Virgin Atlantic", x=1, y=max(box["neg_with"] - 2), size=12, ha="center")
     plt.tight_layout()
     plt.show()
-
-box_plots("all")
 
 

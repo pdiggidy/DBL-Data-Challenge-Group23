@@ -1,4 +1,4 @@
-#from Boxplot import *
+from Boxplot import *
 from heatmap import *
 import datetime as dt
 
@@ -10,7 +10,9 @@ def runplots(month:int):
         global running
         running = False
         return None
-    heatmap(int(month))
+    #month = int(month)
+    heatmap(month)
+    box_plots(month)
 
 
 while running:

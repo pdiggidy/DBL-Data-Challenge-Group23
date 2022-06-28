@@ -50,14 +50,26 @@ def heatmap(month):
     color = sns.color_palette("coolwarm_r", as_cmap=True)
     if month != "all":
         hmdata = hmdata[month]
-        sns.heatmap(data=hmdata[:, np.newaxis], vmin=-0.5, vmax=0.5,
+        ax = sns.heatmap(data=hmdata[:, np.newaxis], vmin=-0.5, vmax=0.5,
                     xticklabels=[month_list[int(month) - 1]], annot=True, cmap=color)
+        ax.collections[1].colorbar.ax.tick_params(labelsize=25)
+        ax.tick_params(labelsize=18)
+        ax.set_xlabel("Month", size=18)
+        ax.set_ylabel("Day", size=18)
+        ax.set_yticks([1,5,10,15,20,25,30])
+        ax.set_yticklabels([1,5,10,15, 20,25,30])
 
     if month == "all":
-        sns.heatmap(data=hmdata, vmin=-0.5, vmax=0.5,
+        ax = sns.heatmap(data=hmdata, vmin=-0.5, vmax=0.5,
                     xticklabels=month_list, annot=True, cmap=color)
+        ax.tick_params(labelsize=18)
+        ax.set_xlabel("Month", size=18)
+        ax.set_ylabel("Day", size=18)
+        ax.set_yticks([1,5,10,15,20,25,30])
+        ax.set_yticklabels([1,5,10,15, 20,25,30])
 
-    plt.title("Average sentiment change per day (KLM)", {'fontsize': 16, 'fontweight': "bold"})
+    plt.title("Average sentiment change per day (KLM)", {'fontsize': 24, 'fontweight': "bold"})
     plt.show()
+
     plt.savefig(f"heatmap_{month}.png", bbox_inches='tight')
 
