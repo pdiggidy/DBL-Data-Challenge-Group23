@@ -8,8 +8,8 @@ import seaborn as sns
 from datetime import datetime
 import re
 
-air_lst = ["KLM", "BritishAirways", "AmericanAir", "Lufthansa",
-           "EasyJet", "Ryanair", "SingaporeAir", "VirginAtlantic"]
+air_lst = ["KLM", "BritishAirways","EasyJet", "Ryanair"]
+           # "AmericanAir", "Lufthansa", "SingaporeAir", "VirginAtlantic"]
 cats_regx_lst = ['(delay)', '(cancel)', '(bag)', '(service)', '(luggage)', '(food)', '(lunch)',
                  '(meal)', '(breakfast)', '(dinner)', '(boarding pass)', " (late)[ ,.?!]",
                  "(compensation)", "(refund)", "(check)-in|(check) in"]
@@ -184,6 +184,7 @@ def plot_categories(all_cat):
 
 ##### for month: uncomment and only change month_number variable##########
 def plot_categories_sentiment(month_number):
+    month_number = int(month_number)
     connection = create_engine(os.environ["DB_STRING"]).connect()
     text_df = pd.read_sql(query_text, connection)
     connection.close()
@@ -193,4 +194,4 @@ def plot_categories_sentiment(month_number):
     month_cat = pd.concat([create_categories_df(name, text_month_df) for name in air_lst])
     plot_categories(month_cat)
 
-#plot_categories_sentiment(2)
+# plot_categories_sentiment(2)

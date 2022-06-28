@@ -52,7 +52,6 @@ def heatmap(month):
         hmdata = hmdata[month]
         ax = sns.heatmap(data=hmdata[:, np.newaxis], vmin=-0.5, vmax=0.5,
                     xticklabels=[month_list[int(month) - 1]], annot=True, cmap=color)
-        ax.collections[1].colorbar.ax.tick_params(labelsize=25)
         ax.tick_params(labelsize=18)
         ax.set_xlabel("Month", size=18)
         ax.set_ylabel("Day", size=18)
@@ -68,6 +67,7 @@ def heatmap(month):
         ax.set_yticks([1,5,10,15,20,25,30])
         ax.set_yticklabels([1,5,10,15, 20,25,30])
 
+    ax.collections[0].colorbar.ax.tick_params(labelsize=25)
     plt.title("Average sentiment change per day (KLM)", {'fontsize': 24, 'fontweight': "bold"})
     plt.savefig(f"heatmap_{month}.png", bbox_inches='tight')
     plt.show()
