@@ -118,7 +118,7 @@ def BarChart(month: int):
             alpha=0.5, color="orange")
     plt.bar([x_axis[2], x_axis[6]], [ba_dic["sentiment_first"][2], ba_dic["sentiment_last"][2]],
             alpha=0.5, color="green")
-    plt.suptitle("BritishAirways", weight="bold", size=22)
+    plt.suptitle("BritishAirways", size=22)
     plt.xlabel("Start                          End", size=18)
     plt.xticks([x_axis[0], x_axis[1], x_axis[2], x_axis[4], x_axis[5], x_axis[6]],
                ["neg", "neu", "pos", "neg", "neu", "pos"], size=16)
@@ -160,6 +160,7 @@ def BarChart(month: int):
     plt.ylabel("Amount of tweets", size=18)
     plt.savefig(f"BarChart_EJ_{month}.png", bbox_inches="tight")
     plt.show()
-    plt.clf()
+    plt.show()
+   # plt.clf()
 
 BarChart(1)
