@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="995e8452-2cc5-4060-8c01-af6560ade23c" name="Changes" comment="Boxplot">
+    <list default="true" id="995e8452-2cc5-4060-8c01-af6560ade23c" name="Changes" comment="Label sizes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Boxplot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Boxplot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ratios.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ratios.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/changes" beforeDir="false" afterPath="$PROJECT_DIR$/changes" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heatmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/heatmap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,16 +48,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Python.main">
+}</component>
+  <component name="RunManager" selected="Python.Boxplot">
     <configuration name="Boxplot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DBL GitHub" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -109,6 +110,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DB_STRING" value="mysql+pymysql://root:BwkwTfZUG7kXDkcLB7mb@116.202.135.30:25506/Tweets_Data" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -244,7 +246,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653399822297</updated>
-      <workItem from="1656406659711" duration="1922000" />
+      <workItem from="1656406659711" duration="3418000" />
+      <workItem from="1656410117502" duration="1359000" />
     </task>
     <task id="LOCAL-00001" summary="Added Jeroen's files.">
       <created>1656010045059</created>
@@ -274,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656406541008</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Label sizes">
+      <created>1656408666007</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1656408666007</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,22 +307,38 @@
     <MESSAGE value="Clean up + added Jeroen's files 2.0." />
     <MESSAGE value="Updated files" />
     <MESSAGE value="Boxplot" />
-    <option name="LAST_COMMIT_MESSAGE" value="Boxplot" />
+    <MESSAGE value="Label sizes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Label sizes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Boxplot.py</url>
-          <line>91</line>
-          <option name="timeStamp" value="2" />
+          <line>68</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Boxplot.py</url>
+          <line>84</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Boxplot.py</url>
+          <line>99</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Boxplot.py</url>
+          <line>113</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$main.coverage" NAME="main Coverage Results" MODIFIED="1656408337240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Ratios.coverage" NAME="Ratios Coverage Results" MODIFIED="1656343605138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$main.coverage" NAME="main Coverage Results" MODIFIED="1656409655055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Ratios.coverage" NAME="Ratios Coverage Results" MODIFIED="1656410387373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Sort_Data_py$SQL_test.coverage" NAME="SQL_test Coverage Results" MODIFIED="1652968895170" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Ratios__1_.coverage" NAME="Ratios (1) Coverage Results" MODIFIED="1656332761564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Sort_Data_py$main.coverage" NAME="main Coverage Results" MODIFIED="1653394595664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -323,6 +349,6 @@
     <SUITE FILE_PATH="coverage/Sort_Data_py$DescriptiveStats_SA.coverage" NAME="DescriptiveStats_SA Coverage Results" MODIFIED="1654609863367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Sort_Data_py$Test.coverage" NAME="Test Coverage Results" MODIFIED="1651147916944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/DBL_Data_Challenge$temp.coverage" NAME="temp Coverage Results" MODIFIED="1655900899687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Boxplot.coverage" NAME="Boxplot Coverage Results" MODIFIED="1656406613804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DBL_Data_Challenge$Boxplot.coverage" NAME="Boxplot Coverage Results" MODIFIED="1656411266419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

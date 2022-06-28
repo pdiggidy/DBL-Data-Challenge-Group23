@@ -52,7 +52,7 @@ def heatmap(month):
         hmdata = hmdata[month]
         ax = sns.heatmap(data=hmdata[:, np.newaxis], vmin=-0.5, vmax=0.5,
                     xticklabels=[month_list[int(month) - 1]], annot=True, cmap=color)
-        ax.collections[1].colorbar.ax.tick_params(labelsize=25)
+        ax.collections[0].colorbar.ax.tick_params(labelsize=25)
         ax.tick_params(labelsize=18)
         ax.set_xlabel("Month", size=18)
         ax.set_ylabel("Day", size=18)
