@@ -15,7 +15,7 @@ def runplots(month:int):
     #month = int(month)
     heatmap(month)
     box_plots(month)
-    #plot_categories_sentiment(month)
+    plot_categories_sentiment(month)
     BarChart(month)
 
 
