@@ -109,6 +109,7 @@ def BarChart(month: int):
     plt.yticks(size=16)
     plt.ylabel("Amount of tweets", size=18)
     plt.savefig(f"BarChart_KLM_{month}.png", bbox_inches="tight")
+    plt.show()
     plt.clf()
 
     plt.bar([x_axis[0], x_axis[4]], [ba_dic["sentiment_first"][0], ba_dic["sentiment_last"][0]],
@@ -124,6 +125,7 @@ def BarChart(month: int):
     plt.yticks(size=16)
     plt.ylabel("Amount of tweets", size=18)
     plt.savefig(f"BarChart_BA_{month}.png", bbox_inches="tight")
+    plt.show()
     plt.clf()
 
     plt.bar([x_axis[0], x_axis[4]], [ra_dic["sentiment_first"][0], ra_dic["sentiment_last"][0]],
@@ -140,6 +142,7 @@ def BarChart(month: int):
     plt.yticks(size=16)
     plt.ylabel("Amount of tweets", size=18)
     plt.savefig(f"BarChart_RA_{month}.png", bbox_inches="tight")
+    plt.show()
     plt.clf()
 
     plt.bar([x_axis[0], x_axis[4]], [ej_dic["sentiment_first"][0], ej_dic["sentiment_last"][0]],
@@ -156,6 +159,7 @@ def BarChart(month: int):
     plt.yticks(size=16)
     plt.ylabel("Amount of tweets", size=18)
     plt.savefig(f"BarChart_EJ_{month}.png", bbox_inches="tight")
+    plt.show()
     plt.clf()
 
-BarChart("all")
+BarChart(1)

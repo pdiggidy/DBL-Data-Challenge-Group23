@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d5d70164-0eee-45ca-8bea-7a58a5d51604" name="Changes" comment="imprtoved barcharts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarCharts.py" beforeDir="false" afterPath="$PROJECT_DIR$/BarCharts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,9 +223,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.BarCharts" />
         <item itemvalue="Python.Superplot" />
         <item itemvalue="Python.Categories_sentiment" />
-        <item itemvalue="Python.BarCharts" />
         <item itemvalue="Python.Boxplot" />
         <item itemvalue="Python.Ratios" />
       </list>
@@ -324,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656419348569</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="imprtoved barcharts">
+      <created>1656420007713</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1656420007713</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
