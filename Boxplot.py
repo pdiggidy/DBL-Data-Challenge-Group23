@@ -139,4 +139,4 @@ def box_plots(month):
     plt.savefig("Boxplots.png")
     plt.show()
 
-box_plots("all")
+# box_plots("all")
