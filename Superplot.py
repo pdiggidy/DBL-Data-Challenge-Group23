@@ -12,10 +12,11 @@ from datetime import datetime
 
 
 def month_data_superplot(month, all_tweets_df):
+    month = int(month)
     all_tweets_df_copy = all_tweets_df.copy()
     months_series = all_tweets_df_copy.cur_timestamp.apply(lambda s: datetime.fromtimestamp(s).month)
     all_tweets_df_copy[months_series == month]
-    df = all_tweets_df[months_series == 6].copy().reset_index(drop=True)
+    df = all_tweets_df[months_series == month].copy().reset_index(drop=True)
     return df
 
 def plot_superplot_heatmap_in_plot(month_number):
@@ -166,5 +167,5 @@ def plot_superplot_heatmap_in_plot(month_number):
     plt.savefig("superplot.png", bbox_inches="tight")
     plt.show()
 
-plot_superplot_heatmap_in_plot()
+# plot_superplot_heatmap_in_plot(1)
 
