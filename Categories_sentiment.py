@@ -8,7 +8,7 @@ import seaborn as sns
 from datetime import datetime
 import re
 
-air_lst = ["KLM", "BritishAirways","EasyJet", "Ryanair"]
+air_lst = ["KLM", "BritishAirways","EasyJet", "Ryanair", "Average"]
            # "AmericanAir", "Lufthansa", "SingaporeAir", "VirginAtlantic"]
 cats_regx_lst = ['(delay)', '(cancel)', '(bag)', '(service)', '(luggage)', '(food)', '(lunch)',
                  '(meal)', '(breakfast)', '(dinner)', '(boarding pass)', " (late)[ ,.?!]",
@@ -87,7 +87,10 @@ def show_text_of_category(category, text_df):
 def create_categories_df(airline_name, text_df):
     """Create a df for one airline which divides into subject categories and sentiment category.
     """
-    air = text_df[text_df["airline"] == airline_name]
+    if airline_name != "Average":
+        air = text_df[text_df["airline"] == airline_name]
+    elif airline_name == "Average":
+        air = text_df
     catogs = set(cats_dict.values())
     catogs.remove("Information request")
     catogs.remove("Food")
