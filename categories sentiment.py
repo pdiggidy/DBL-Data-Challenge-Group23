@@ -167,7 +167,7 @@ def plot_categories(all_cat):
             sns.histplot(subject_df,
                          y="airline", weights="value", hue="sentiment_change", discrete=True,
                          multiple="stack", shrink=0.7, ax=ax,
-                         palette=[(0.7, 0.0, 0), (1, .3, 0.3), (1, 0.6, .0),(0.5, .9, 0.4), (0.1, .7, 0.1)])
+                         palette=[(0.7, 0.0, 0), (1, .3, 0.3), (1, 0.6, .0), (0.5, .9, 0.4), (0.1, .7, 0.1)])
             ax.set_title(f"{subject}", fontweight=500, fontsize=26)
             ax.set_xlabel("Percentage", fontsize=18)
             ax.set_ylabel("")

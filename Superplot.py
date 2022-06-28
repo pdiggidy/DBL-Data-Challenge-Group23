@@ -140,7 +140,7 @@ def plot_heatmap(pos_neg_df):
 def plot_superplot_heatmap_in_plot():
     #####heatmap in other plots#################################################################################
     ### Plot 1: Histogram - Amount of tweets sent and recieved per hour of the day
-    fig1, (ax1, ax10) = plt.subplots(2, 1, figsize=(15, 6), gridspec_kw={"height_ratios": (60, 1)})
+    fig1, (ax1, ax10) = plt.subplots(2, 1, figsize=(9, 4), gridspec_kw={"height_ratios": (60, 1)})
 
     x_current_time = all_tweets_df["cur_time_in_date"]
     y_recieved = (all_tweets_df["is_klm"] == False).astype(int)
@@ -208,18 +208,19 @@ def plot_superplot_heatmap_in_plot():
     ax10.set_position([hist_pos.x0, hist_pos.y0, color_pos.width, color_pos.height])
 
     ### set fontsizes
-    ax1.set_title("Response time compared to ratio of sent and received tweets of KLM", fontsize=24,weight="bold", y=1.02)
+    ax1.set_title("Response time compared to ratio\nof sent and received tweets of KLM",
+                  fontsize=24, y=1.02, weight="bold")
 
-    ax1.xaxis.label.set_fontsize(16)
-    ax1.yaxis.label.set_fontsize(16)
-    ax2.yaxis.label.set_fontsize(16)
+    ax1.xaxis.label.set_fontsize(18)
+    ax1.yaxis.label.set_fontsize(18)
+    ax2.yaxis.label.set_fontsize(18)
 
-    ax1.tick_params(labelsize=14)
-    ax2.tick_params(labelsize=14)
+    ax1.tick_params(labelsize=16)
+    ax2.tick_params(labelsize=16)
 
-    ax1.legend(handles=ax1.get_legend_handles_labels()[0] + ax2.get_legend_handles_labels()[0],
-               fontsize=14, bbox_to_anchor=(0.27, 1.01))
-
+    ax1.legend(loc=2, handles=ax1.get_legend_handles_labels()[0] + ax2.get_legend_handles_labels()[0],
+               fontsize=14, bbox_to_anchor=(0.05, 1))
+    plt.savefig("superplot.png", bbox_inches="tight")
     plt.show()
 
 
