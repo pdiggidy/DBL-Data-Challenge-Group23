@@ -5,4 +5,4 @@ Thefirst data challenge revolves around the question of how you compare the perf
 Running the Main file produces plots based on an inputted month.
 !!!! THESE FILES WILL NOT RUN UNLESS PROVIDED WITH THE IP AND PASSWORD OF THE SQL SERVER WHICH ARE NOT INLCUDED !!!
 
-The MySQL Code for The server can be found in the "Tweets_Data" Gzip file
+The MySQL Code for The server can be found in the "Tweets_Data" Gzip file, to install a copy locally use the mysql command line client and create a new database using the contents of the file as the source.
