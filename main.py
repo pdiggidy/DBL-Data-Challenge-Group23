@@ -2,6 +2,7 @@ from Boxplot import *
 from heatmap import *
 from Categories_sentiment import *
 from BarCharts import *
+from Superplot import *
 import datetime as dt
 
 running = True
