@@ -84,7 +84,6 @@ def box_plots(month):
     insuf = []
     for name, group in df:
         vals = group["change"].value_counts(normalize=True)
-        print(vals)
         ls = []
         for row in vals:
             ls.append(row)
